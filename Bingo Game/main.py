@@ -65,7 +65,32 @@ def create_boards(user_board, comp_board):
     create_board(comp_board)
 
 def check_board(board, userTurn):
-    pass
+    def change_state():
+        global state
+
+        # # if userTurn == True: state = 1
+        # if userTurn: state = 1 
+        # else: state = 0
+        state = 1 if userTurn else 0
+
+    # Row check
+    for i in board:
+        for j in i:
+            if j != "X": break
+        else: change_state()
+
+    # Column check
+    for i in range(0, dim):
+        for j in board:
+            if j[i] != "X": break
+        else: change_state()
+    
+    # Diagonal check
+    for j in board:
+        if j[board.index(j)] != "X" and j[len(j) - 1 - board.index(j)] != "X": break # checking if leftmost variable bound isn't an X and if rightmost variable bound isn't an X also, and that makes it impossible to fill the diagonal anyway, resulting in a break out of loop
+    else: change_state() # will run if the loop continues without breakage
+    
+    return state
 
 def cross_board(board, randomNumber):
     for i in range(0, dim):
