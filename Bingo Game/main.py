@@ -206,7 +206,49 @@ def save_game(file_name, user_board=[], comp_board=[]):
     print(f"Game saved successfully as '{file_name}.txt'")
 
 def load_game():
-    pass
+    global dim, user_score, comp_score, user_total_score, comp_total_score
+
+    while True:
+        try:
+            name = input("Enter your name associated with the saved game or quit (q/Q): ")
+            
+            if name.lower() == 'q':
+                bye()
+                return
+            
+            with open(f"{name}.txt", "r") as fileObj:
+                lines = fileObj.read().split("\n")
+                is_finished = len(lines) == 3 # if game already finished there will be only three items, first item is the scores string and the second one is the scores values and the last is the sentinel returned due to the end of file. Which means that no boards have been saved after that which is only not saved because the game is already finished (useless to save boards after game has ended)
+                first_line = lines[1].split(" ")
+
+                if is_finished:
+                    user_score = 0
+                    comp_score = 0
+                    user_total_score = int(first_line[0])
+                    comp_total_score = int(first_line[1])
+
+                    user_board, comp_board = get_dimension()  
+                else:
+                    user_score = int(first_line[0])
+                    comp_score = int(first_line[1])
+                    user_total_score = int(first_line[2])
+                    comp_total_score = int(first_line[3])
+
+                    dim = (len(lines) - 5) // 2 # getting length of lines list of two boards (without the sentinel, two board names and scores strings, and score value. Total is 5 and dividing it by two which yields the dimension of one board.
+
+                    user_board_lines = lines[3: (3 + dim)]
+                    comp_board_lines = lines[(3 + dim + 1):-1]
+                    
+                    # Use list comprehension to replace 'X' with int or keep 'X'
+                    user_board = [[int(x) if x != 'X' else x for x in line.split()] for line in user_board_lines]
+                    comp_board = [[int(x) if x != 'X' else x for x in line.split()] for line in comp_board_lines]
+                break
+        except FileNotFoundError:
+            print(f"File '{name}' not found. Please try again later.")
+        except:
+            print("The save file may be corrupted. Sorry for the inconvenience.")
+
+    return name, user_board, comp_board
     
 def main(name = None):
     global dim, user_won, user_score, comp_score
