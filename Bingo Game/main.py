@@ -68,7 +68,11 @@ def check_board(board, userTurn):
     pass
 
 def cross_board(board, randomNumber):
-    pass
+    for i in range(0, dim):
+        if randomNumber in board[i]:
+            board[i][board[i].index(randomNumber)] = "X"
+
+    return state
 
 def print_boards(user_board, comp_board, isPlaying = False):
     def print_board(board, name):
