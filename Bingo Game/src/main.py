@@ -13,7 +13,14 @@ def get_random_message(key):
         return f"No messages found for key: {key}"
 
 def set_difficulty():
-    pass
+    options = (1, 2, 3, 4, 5)
+    difficulty_dict = {o: (o * 2 - (o / MULTIPLIER)) * 10 for o in options}
+
+    choice = input("Choose the difficulty you desire:\n1. Easy\n2. Medium\n3. Hard\n4. Horrible\n5. not fun; trust me\n- ")
+
+    while not (choice.isdigit() and int(choice) in options): # must be in that order or if a non-digit entered will yield an error for converting to int
+        choice = input("Invalid input. Enter '1', '2', '3', '4', '5'") 
+    return difficulty_dict[int(choice)]
 
 def set_dimension():
     def create_board(): # dim variable is assigned in the parent function before calling
