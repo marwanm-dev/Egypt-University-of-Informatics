@@ -209,6 +209,7 @@ def play_game(name, difficulty, crossed_dict, user_board, comp_board):
 
             # Count crossed numbers in both diagonal
             count_main__d = count_crossed_in_diagonal(True)
+            count_main__d = count_crossed_in_diagonal(True)
             count_sec__d = count_crossed_in_diagonal(False)
             available_spots_main_d = [comp_board[i][i] for i in range(dim) if comp_board[i][i] != "X"]
             available_spots_sec_d = [comp_board[i][dim - i - 1] for i in range(dim) if comp_board[i][dim - i - 1] != "X"]
