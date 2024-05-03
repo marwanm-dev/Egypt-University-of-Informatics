@@ -3,4 +3,4 @@
 
 using namespace std;
 
-void User::print() { cout << "Hello from User!" << endl; }
+void User::print() { cout << "Hello from User" << endl; }
