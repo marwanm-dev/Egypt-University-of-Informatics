@@ -15,7 +15,12 @@ public:
   User();
   User(const string &username_, const string &password_);
   bool checkAuth(const string &username_, const string &password_) const;
+  void setId(const int &id);
+  void setUsername(const string &password);
+  void setPassword(const string &password);
   int getId() const { return id; }
+  string getUsername() const { return username; }
+  string getPassword() const { return password; }
   virtual void display() const;
 };
 
