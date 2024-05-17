@@ -5,8 +5,8 @@
 
 Administrator::Administrator(const string &username, const string &password)
     : User(username, password), numInstructors(0), numStudents(0),
-      numCourses(0), instructors(new Instructor[1]), students(new Student[1]),
-      courses(new Course[1]) {}
+      numCourses(0), instructors(new Instructor[0]), students(new Student[0]),
+      courses(new Course[0]) {}
 void Administrator::addStudent(const Student &student) {
   // students[numStudents++] = student;
 }

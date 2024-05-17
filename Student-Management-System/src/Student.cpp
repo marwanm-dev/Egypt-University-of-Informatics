@@ -1,5 +1,6 @@
 #include "../include/Student.h"
 #include "../include/Course.h"
+#include "swapIndices.cpp"
 
 Student::Student() : numCourses(0), MAX_COURSES(6) {}
 Student::Student(string username, string password)
@@ -9,17 +10,13 @@ Student::Student(string username, string password)
 }
 
 void Student::registerCourse(Course course) {
-  courses[numCourses++] = course;
-  if (numCourses >= MAX_COURSES)
-    cout << "can't register more";
+  // courses[numCourses++] = course;
 }
 
 void Student::dropCourses(string code) {
   for (int i = 0; i < numCourses; ++i) {
     if (courses[i].getCode() == code) {
-      Course temp = courses[i];
-      courses[i] = courses[numCourses - 1];
-      courses[numCourses - 1] = temp;
+      // swapIndices(courses[i], courses[numCourses - 1]);
       numCourses--;
     }
   }
@@ -35,9 +32,4 @@ double Student::getGrade(string code) {
       }
     }
   }
-}
-void Student::display() {
-  User::display();
-  cout << "Role: student" << endl;
-  cout << courses[0].getCode();
 }

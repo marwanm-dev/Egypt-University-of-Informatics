@@ -9,8 +9,8 @@ Course::Course(string name, string code, int credits)
   this->code = code;
   this->credits = credits;
   instructorIds = new int[MAX_INSTRUCTORS];
-  studentIds = new int[1];
-  studentGrades = new double[1];
+  studentIds = new int[0];
+  studentGrades = new double[0];
 }
 Course::~Course() {
   delete[] instructorIds;
