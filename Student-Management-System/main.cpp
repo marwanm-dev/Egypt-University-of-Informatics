@@ -1,59 +1,51 @@
 #include "include/Administrator.h"
-#include "include/Course.h"
-#include "include/Instructor.h"
-#include "include/Student.h"
+#include "include/CONSTANTS.h"
 #include "include/User.h"
-
+#include <limits.h>
 using namespace std;
+
 int main() {
-  Student s("mama", "pass");
-  Course c("Physics", "C-PH112", 3);
-  s.registerCourse(c);
-  s.display();
+  Administrator admin(ADMIN_USERNAME, ADMIN_PASSWORD);
+
+  int choice;
+  string username, password;
+
+  while (true) {
+    cout << "1. Login\n2. Exit\n";
+    cin >> choice;
+
+    if (choice == 1) {
+      cout << "Username: ";
+      cin >> username;
+      cout << "Password: ";
+      cin >> password;
+
+      User *loggedInUser = nullptr;
+
+      if (admin.checkAuth(username, password))
+        loggedInUser = &admin;
+      for (int i = 0; !loggedInUser && i < admin.getNumInstructors(); ++i) {
+        Instructor instructor = admin.getInstructors()[i];
+        if (instructor.checkAuth(username, password))
+          loggedInUser = &instructor;
+      }
+      for (int i = 0; !loggedInUser && i < admin.getNumStudents(); ++i) {
+        Student student = admin.getStudents()[i];
+        if (student.checkAuth(username, password))
+          loggedInUser = &student;
+      }
+
+      if (loggedInUser)
+        loggedInUser->handleMenu();
+      else
+        cout << "Invalid credentials!" << endl;
+
+    } else if (choice == 2)
+      break;
+    else {
+      cout << "Invalid input!" << endl;
+    }
+  }
+
+  return 0;
 }
-/* int main() { */
-/*   Administrator admin("admin", "admin"); */
-/*   string username, password; */
-/*   cout << "Welcome User!" << endl; */
-/**/
-/*   bool loggedIn = false; */
-/*   while (!loggedIn) { */
-/*     // Add input validation */
-/*     cout << "Please login to your account" << endl; */
-/*     cout << "Username: "; */
-/*     cin >> username; */
-/*     cout << "Password: "; */
-/*     cin >> password; */
-/**/
-/*     if (admin.checkAuth(username, password)) { */
-/*       loggedIn = true; */
-/*       cout << "Login successful! You are logged in as " << username << endl;
- */
-/*       // list available member functions for the Administrator class and an
- */
-/*       // option to log out */
-/*     } */
-/*     for (int i = 0; i < admin.numInstructors && !loggedIn; ++i) { */
-/*       if (admin.instructors[i].checkAuth(username, password)) { */
-/*         loggedIn = true; */
-/*         cout << "Login successful! You are logged in as " << username <<
- * endl; */
-/*         // list available member functions for the Administrator class and an
- */
-/*         // option to log out */
-/*       } */
-/*     } */
-/*     for (int i = 0; i < admin.numOfStudents && !loggedIn; ++i) { */
-/*       if (admin.students[i].checkAuth(username, password)) { */
-/*         loggedIn = true; */
-/*         cout << "Login successful! You are logged in as " << username <<
- * endl; */
-/*         // list available member functions for the Administrator class and an
- */
-/*         // option to log out */
-/*       } */
-/*     } */
-/*   } */
-/**/
-/*   return 0; */
-/* } */

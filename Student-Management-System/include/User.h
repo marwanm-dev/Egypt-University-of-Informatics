@@ -13,15 +13,14 @@ class User {
 
 public:
   User();
-  User(const string &username_, const string &password_);
-  bool checkAuth(const string &username_, const string &password_) const;
-  void setId(const int &id);
-  void setUsername(const string &password);
-  void setPassword(const string &password);
+  virtual ~User();
+  User(const string &, const string &);
+  bool checkAuth(const string &, const string &) const;
   int getId() const { return id; }
   string getUsername() const { return username; }
-  string getPassword() const { return password; }
+  void operator=(const User &);
   virtual void display() const;
+  virtual void handleMenu();
 };
 
 #endif

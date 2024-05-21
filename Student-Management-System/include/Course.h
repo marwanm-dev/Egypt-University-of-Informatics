@@ -7,12 +7,12 @@ using namespace std;
 class Course {
   string name;
   string code;
-  int *instructorIds;
   int credits;
+  int *instructorIds;
   int *studentIds;
   double *studentGrades;
-  int numStudents;
   int numInstructors;
+  int numStudents;
   const int MAX_INSTRUCTORS;
 
 public:
@@ -24,12 +24,15 @@ public:
   double getMaxGrade();
   double getMinGrade();
   double getAvgGrade(int);
-  string getCode() { return code; }
+  string getCode() const { return code; }
+  string getName() const { return name; }
+  int getCredits() const { return credits; }
   int getNumStudents() { return numStudents; };
   int *getStudentIds() { return studentIds; };
   double *getStudentGrades() { return studentGrades; };
   void incrementNumStudents();
-  // Add overloaded "=" operator
+  void operator=(const Course &);
+  void display() const;
 };
 
 #endif

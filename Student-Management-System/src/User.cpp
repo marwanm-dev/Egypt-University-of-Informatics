@@ -1,23 +1,47 @@
 #include "../include/User.h"
+#include "../include/CONSTANTS.h"
+#include "./inputValidation.cpp"
+#include <iomanip>
 
 using namespace std;
 
-User::User() {}
+User::User() : id(0), username(""), password("") {}
 
-User::User(const string &username_, const string &password_)
-    : username(username_), password(password_), id(1 + (rand() % INT_MAX)) {}
+User::~User() {}
 
-bool User::checkAuth(const string &username_, const string &password_) const {
-  return username == username_ && password == password_;
+User::User(const string &username, const string &password)
+    : id(1 + (rand() % INT_MAX)) {
+  if (isValidUsername(username) && isValidPassword(password)) {
+    this->username = username;
+    this->password = password;
+  } else {
+    this->username = "";
+    this->password = "";
+    if (!isValidUsername(username))
+      cout << INVALID_USERNAME;
+    else
+      cout << INVALID_PASSWORD;
+  }
 }
 
-void User::setId(int id) { this->id = id; }
+bool User::checkAuth(const string &username, const string &password) const {
+  return this->username == username && this->password == password;
+}
 
-void User::setUsername(string username) { this->username = username; }
-
-void User::setPassword(string password) { this->password = password; }
+void User::operator=(const User &user) {
+  this->id = user.id;
+  this->username = user.username;
+  this->password = user.password;
+}
 
 void User::display() const {
-  cout << "Id: " << id << endl;
-  cout << "Username: " << username << endl;
+  cout << left << setw(ID_MAX_LENGTH + SPACE) << "ID"
+       << setw(USERNAME_MAX_LENGTH + SPACE) << "Username" << endl;
+  cout << DIVIDER;
+  cout << left << setw(ID_MAX_LENGTH + SPACE) << id
+       << setw(USERNAME_MAX_LENGTH + SPACE) << username << endl;
+
+  cout << endl;
 }
+
+void User::handleMenu() { return; }

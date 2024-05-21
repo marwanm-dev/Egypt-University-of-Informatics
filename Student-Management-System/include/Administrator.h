@@ -9,21 +9,34 @@
 using namespace std;
 
 class Administrator : public User {
-  Instructor *instructors;
   Student *students;
+  Instructor *instructors;
   Course *courses;
+  int studentCapacity;
+  int instructorCapacity;
+  int courseCapacity;
   int numInstructors;
   int numStudents;
   int numCourses;
 
 public:
   Administrator(const string &, const string &);
+  ~Administrator();
   void addStudent(const Student &);
   void removeStudent(const int &);
-  void addInstuctor(const Instructor &);
+  void addInstructor(const Instructor &);
   void removeInstructor(const int &);
   void addCourse(const Course &);
   void removeCourse(const string &);
+  void resizeStudents();
+  void resizeInstructors();
+  void resizeCourses();
+  int getNumInstructors() const { return numInstructors; };
+  Instructor *getInstructors() const { return instructors; };
+  int getNumStudents() const { return numStudents; };
+  Student *getStudents() const { return students; };
+  void display() const;
+  void handleMenu(Administrator *, int);
 };
 
 #endif

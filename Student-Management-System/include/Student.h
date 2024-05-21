@@ -14,13 +14,15 @@ class Student : public User {
 
 public:
   Student();
-  Student(string, string);
+  ~Student();
+  Student(const string &, const string &);
   void registerCourse(Course);
-  void dropCourses(string);
+  void dropCourse(string);
   double getGrade(string);
   double getAvgGrades();
-  void display();
-  // add the overloaded "=" operator
+  void operator=(const Student &);
+  void display() const;
+  void handleMenu();
 };
 
 #endif

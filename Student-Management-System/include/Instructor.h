@@ -7,19 +7,21 @@
 using namespace std;
 
 class Instructor : public User {
-private:
   Course *courses;
   int numCourses;
   const int MAX_COURSES;
 
 public:
   Instructor();
-  Instructor(string, string);
+  ~Instructor();
+  Instructor(const string &, const string &);
   void addCourse(Course);
   void removeCourse(string);
   void setGrade(string, int, double);
   double performStats(string, string);
-  // add the overloaded "=" operator
+  void operator=(const Instructor &);
+  void display() const;
+  void handleMenu();
 };
 
 #endif
