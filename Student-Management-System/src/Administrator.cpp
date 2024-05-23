@@ -6,6 +6,15 @@
 #include "swapIndices.cpp"
 #include <iomanip>
 
+Administrator::Administrator()
+    : numInstructors(0), numStudents(0), numCourses(0),
+      instructorCapacity(INITIAL_CAPACITY), studentCapacity(INITIAL_CAPACITY),
+      courseCapacity(INITIAL_CAPACITY) {
+  instructors = new Instructor[instructorCapacity];
+  students = new Student[studentCapacity];
+  courses = new Course[courseCapacity];
+}
+
 Administrator::Administrator(const string &username, const string &password)
     : User(username, password), numInstructors(0), numStudents(0),
       numCourses(0), instructorCapacity(INITIAL_CAPACITY),
@@ -178,6 +187,9 @@ Course *Administrator::getCourse(const string &code) const {
 }
 
 string *Administrator::getCourseCodes() const {
+  if (numCourses == 0)
+    return nullptr;
+  cout << numCourses << endl;
   string *codes = new string[numCourses];
   for (int i = 0; i < numCourses; ++i)
     codes[i] = courses[i].getCode();

@@ -17,6 +17,8 @@ class Student : public User {
 public:
   Student();
   ~Student();
+  /* Student(const Student &other);            // Copy constructor */
+  /* Student &operator=(const Student &other); // Assignment operator */
   Student(const string &, const string &, const Administrator &);
   void registerCourse(const string &);
   void dropCourse(const string &);

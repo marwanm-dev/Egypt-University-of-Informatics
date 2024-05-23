@@ -26,7 +26,7 @@ Student::~Student() {
 
 void Student::registerCourse(const string &code) {
   const Course *course = ADMIN->getCourse(code);
-  if (course)
+  if (course != nullptr)
     courses[numCourses++] = *course;
   else
     cout << "Course with this specified code is not found in the system."
@@ -103,17 +103,19 @@ void Student::display() const {
   for (int i = 0; i < numCourses; ++i)
     cout << left << setw(COURSE_CODE_MAX_LENGTH + SPACE) << courses[i].getCode()
          << setw(COURSE_NAME_MAX_LENGTH + SPACE) << courses[i].getName()
-         << setw(COURSE_CREDITS_MAX_LENGTH + SPACE) << courses[i].getCredits()
-         << setw(GRADE_MAX_LENGTH + SPACE) << grades[i] << endl;
+         << setw(COURSE_CREDITS_MAX_LENGTH + 2 * SPACE)
+         << courses[i].getCredits() << setw(GRADE_MAX_LENGTH + SPACE)
+         << grades[i] << endl;
   cout << endl;
 }
 void Student::operator=(const Student &student) {
   User::operator=(student);
   numCourses = student.numCourses;
+  ADMIN = student.ADMIN;
   delete[] courses;
   delete[] grades;
-  courses = new Course[numCourses];
-  grades = new double[numCourses];
+  courses = new Course[MAX_COURSES];
+  grades = new double[MAX_COURSES];
   for (int i = 0; i < numCourses; ++i) {
     courses[i] = student.courses[i];
     grades[i] = student.grades[i];
@@ -121,6 +123,8 @@ void Student::operator=(const Student &student) {
 }
 void Student::handleMenu() {
   int choice;
+  if (ADMIN == nullptr)
+    cout << " HELP ";
   do {
     cout << "1. Enroll in a new Course\n2. Drop a Course\n3. View Grade in a "
             "Specific Course\n4. Get statistics in all courses\n"
@@ -129,17 +133,24 @@ void Student::handleMenu() {
 
     switch (choice) {
     case 1: {
+      if (ADMIN->getNumCourses() == 0) {
+        cout << "No courses yet.";
+        break;
+      }
       string *codes = ADMIN->getCourseCodes();
       string code;
       cout << "Available courses to register in:" << endl;
-      for (int i = 0; i < codes->length(); ++i) {
+      for (int i = 0; i < ADMIN->getNumCourses(); ++i) {
         cout << codes[i];
-        if (i != codes->length() - 1)
+        if (i != ADMIN->getNumCourses() - 1)
           cout << ", ";
+        else
+          cout << endl;
       }
       cout << "Type the course code: ";
       cin >> code;
       registerCourse(code);
+      delete[] codes;
       break;
     }
     case 2: {
@@ -153,19 +164,26 @@ void Student::handleMenu() {
       string code;
       cout << "Enter the course code to view: ";
       cin >> code;
-      cout << "Your grade in " << code << " is: " << getGrade(code);
+      double grade = getGrade(code);
+      if (grade == -1)
+        cout << "Your grade in the course with the specified code was not "
+                "found."
+             << endl;
+      else
+        cout << "Your grade in " << code << " is: " << getGrade(code);
       break;
     }
     case 4: {
       int choice;
       cout << "1. Get the average grade\n2. Get the maximum grade\n3. Get the "
               "minimum grade\n";
+      cin >> choice;
       if (choice == 1)
-        getStats("avg");
+        cout << getStats("avg");
       else if (choice == 2)
-        getStats("max");
+        cout << getStats("max");
       else if (choice == 3)
-        getStats("min");
+        cout << getStats("min");
       else
         cout << "Invalid input.";
       break;

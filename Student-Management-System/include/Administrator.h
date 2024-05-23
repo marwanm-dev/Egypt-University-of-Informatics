@@ -20,6 +20,7 @@ class Administrator : public User {
   int numCourses;
 
 public:
+  Administrator();
   Administrator(const string &, const string &);
   ~Administrator();
   void addStudent(const Student &);
@@ -35,6 +36,7 @@ public:
   Instructor *getInstructors() const { return instructors; };
   int getNumStudents() const { return numStudents; };
   Student *getStudents() const { return students; };
+  int getNumCourses() const { return numCourses; };
   Course *getCourse(const string &code) const;
   string *getCourseCodes() const;
   void display() const;

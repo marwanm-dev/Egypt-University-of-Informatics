@@ -15,7 +15,9 @@ class Course {
   int numInstructors;
   int numStudents;
   int numPrerequisites;
+  int studentCapacity;
   const int MAX_INSTRUCTORS;
+  const int MAX_PREREQUISITES;
 
 public:
   Course();
@@ -27,6 +29,7 @@ public:
   void removeStudentId(const int &);
   void addPrerequisite(const Course &);
   void removePrerequisite(const string &);
+  void resizeStudents();
   double getGrade(const int &);
   double getMaxGrade();
   double getMinGrade();

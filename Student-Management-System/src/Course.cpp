@@ -6,14 +6,17 @@
 
 Course::Course()
     : name(""), code(""), credits(0), numStudents(0), numInstructors(0),
-      numPrerequisites(0), MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {}
+      numPrerequisites(0), studentCapacity(1),
+      MAX_PREREQUISITES(MAX_PREREQUISITE_COURSES),
+      MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {}
 Course::Course(const string &name, const string &code, const int &credits)
     : numStudents(0), numInstructors(0), numPrerequisites(0),
+      studentCapacity(1), MAX_PREREQUISITES(MAX_PREREQUISITE_COURSES),
       MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {
+  prerequisites = new Course[MAX_PREREQUISITES];
   instructorIds = new int[MAX_INSTRUCTORS];
-  studentIds = new int[0];
-  studentGrades = new double[0];
-  prerequisites = new Course[0];
+  studentIds = new int[studentCapacity];
+  studentGrades = new double[studentCapacity];
   if (isValidCourseCode(code) && isValidCourseName(name) &&
       isValidCourseCredits(credits)) {
     this->name = name;
@@ -36,6 +39,7 @@ Course::~Course() {
   delete[] instructorIds;
   delete[] studentIds;
   delete[] studentGrades;
+  delete[] prerequisites;
 }
 
 void Course::addInstructorId(const int &id) {
@@ -68,6 +72,8 @@ void Course::addStudentId(const int &id) {
     }
   }
   if (eligible) {
+    if (numStudents == studentCapacity)
+      resizeStudents();
     studentIds[numStudents] = id;
     studentGrades[numStudents++] = id;
 
@@ -77,11 +83,28 @@ void Course::addStudentId(const int &id) {
       cout << i + 1 << ": " << prerequisites[i].code << endl;
   }
 }
+void Course::resizeStudents() {
+  studentCapacity *= 2;
+  int *newStudentIds = new int[studentCapacity];
+  double *newStudentGrades = new double[studentCapacity];
+
+  for (int i = 0; i < numStudents; ++i) {
+    newStudentIds[i] = studentIds[i];
+    newStudentGrades[i] = studentGrades[i];
+  }
+
+  delete[] studentIds;
+  delete[] studentGrades;
+  studentIds = newStudentIds;
+  studentGrades = newStudentGrades;
+}
+
 double Course::getGrade(const int &id) {
   for (int i = 0; i < numStudents; ++i) {
     if (studentIds[i] == id)
       return studentGrades[i];
   }
+  return -1;
 }
 double Course::getMaxGrade() {
   int max = studentGrades[0];
@@ -112,9 +135,11 @@ void Course::operator=(const Course &course) {
   delete[] instructorIds;
   delete[] studentIds;
   delete[] studentGrades;
+  delete[] prerequisites;
   instructorIds = new int[course.numInstructors];
   studentIds = new int[course.numStudents];
   studentGrades = new double[course.numStudents];
+  prerequisites = new Course[course.numPrerequisites];
   name = course.name;
   code = course.code;
   credits = course.credits;
@@ -126,6 +151,8 @@ void Course::operator=(const Course &course) {
   }
   for (int i = 0; i < numInstructors; i++)
     instructorIds[i] = course.instructorIds[i];
+  for (int i = 0; i < numPrerequisites; ++i)
+    prerequisites[i] = course.prerequisites[i];
 }
 void Course::display() const {
   cout << left << setw(COURSE_CODE_MAX_LENGTH + SPACE) << "Code"
