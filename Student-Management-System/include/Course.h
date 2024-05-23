@@ -8,22 +8,29 @@ class Course {
   string name;
   string code;
   int credits;
+  Course *prerequisites;
   int *instructorIds;
   int *studentIds;
   double *studentGrades;
   int numInstructors;
   int numStudents;
+  int numPrerequisites;
   const int MAX_INSTRUCTORS;
 
 public:
   Course();
-  Course(string, string, int);
+  Course(const string &, const string &, const int &);
   ~Course();
-  void addInstructorId(int);
-  void addStudentId(int);
+  void addInstructorId(const int &);
+  void removeInstructorId(const int &);
+  void addStudentId(const int &);
+  void removeStudentId(const int &);
+  void addPrerequisite(const Course &);
+  void removePrerequisite(const string &);
+  double getGrade(const int &);
   double getMaxGrade();
   double getMinGrade();
-  double getAvgGrade(int);
+  double getAvgGrade();
   string getCode() const { return code; }
   string getName() const { return name; }
   int getCredits() const { return credits; }

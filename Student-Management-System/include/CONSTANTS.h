@@ -8,6 +8,9 @@ using namespace std;
 const string DIVIDER =
     "------------------------------------------------------------"
     "------------------\n";
+const string LONG_DIVIDER =
+    "------------------------------------------------------------"
+    "------------------------------------\n";
 const int SPACE = 2;
 const int ID_MAX_LENGTH = 10;   // INT_MAX
 const int GRADE_MAX_LENGTH = 3; // e.g., 100
@@ -16,6 +19,7 @@ const int COURSE_CODE_MAX_LENGTH = ID_MAX_LENGTH;
 const int COURSE_NAME_MAX_LENGTH = 50;
 const int COURSE_CREDITS_MAX_LENGTH = 5;
 
+const int MAX_GRADE = 100;
 const int INSTRUCTOR_MAX_COURSES = 6;
 const int STUDENT_MAX_COURSES = 5;
 const int COURSE_MAX_INSTRUCTORS = 3;

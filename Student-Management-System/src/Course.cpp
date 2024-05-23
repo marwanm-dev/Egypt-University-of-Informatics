@@ -1,17 +1,19 @@
 #include "../include/Course.h"
 #include "../include/CONSTANTS.h"
 #include "./inputValidation.cpp"
+#include "./swapIndices.cpp"
 #include <iomanip>
 
 Course::Course()
     : name(""), code(""), credits(0), numStudents(0), numInstructors(0),
-      MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {}
-Course::Course(string name, string code, int credits)
-    : numStudents(0), numInstructors(0),
+      numPrerequisites(0), MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {}
+Course::Course(const string &name, const string &code, const int &credits)
+    : numStudents(0), numInstructors(0), numPrerequisites(0),
       MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {
   instructorIds = new int[MAX_INSTRUCTORS];
   studentIds = new int[0];
   studentGrades = new double[0];
+  prerequisites = new Course[0];
   if (isValidCourseCode(code) && isValidCourseName(name) &&
       isValidCourseCredits(credits)) {
     this->name = name;
@@ -36,10 +38,50 @@ Course::~Course() {
   delete[] studentGrades;
 }
 
-void Course::addInstructorId(int id) { instructorIds[numInstructors++] = id; }
-void Course::addStudentId(int id) {
-  studentIds[numStudents] = id;
-  studentGrades[numStudents++] = id;
+void Course::addInstructorId(const int &id) {
+  instructorIds[numInstructors++] = id;
+}
+void Course::addPrerequisite(const Course &course) {
+  prerequisites[numPrerequisites++] = course;
+}
+void Course::removePrerequisite(const string &code) {
+  if (numPrerequisites == 0)
+    cout << "No Prerequisites to remove." << endl;
+  int initialNumPrerequisites = numPrerequisites;
+  for (int i = 0; i < numPrerequisites; ++i) {
+    if (prerequisites[i].code == code) {
+      swapIndices(prerequisites[i], prerequisites[numPrerequisites - 1]);
+      --numPrerequisites;
+    }
+  }
+  if (initialNumPrerequisites == numPrerequisites) {
+    cout << INVALID_CODE;
+  } // if number of instructors did not decrease by 1
+}
+
+void Course::addStudentId(const int &id) {
+  bool eligible = false;
+  for (int i = 0; i < numPrerequisites; ++i) {
+    for (int j = 0; j < numStudents; ++j) {
+      if (prerequisites[i].studentIds[j] == id)
+        eligible = true;
+    }
+  }
+  if (eligible) {
+    studentIds[numStudents] = id;
+    studentGrades[numStudents++] = id;
+
+  } else {
+    cout << "Ineligible due to missing preqrequisite courses:" << endl;
+    for (int i = 0; i < numPrerequisites; ++i)
+      cout << i + 1 << ": " << prerequisites[i].code << endl;
+  }
+}
+double Course::getGrade(const int &id) {
+  for (int i = 0; i < numStudents; ++i) {
+    if (studentIds[i] == id)
+      return studentGrades[i];
+  }
 }
 double Course::getMaxGrade() {
   int max = studentGrades[0];
@@ -53,23 +95,15 @@ double Course::getMaxGrade() {
 double Course::getMinGrade() {
   int min = studentGrades[0];
   for (int i = 0; i < numStudents; i++) {
-    if (studentGrades[i] < min) {
+    if (studentGrades[i] < min)
       min = studentGrades[i];
-    }
   }
   return min;
 }
-double Course::getAvgGrade(int id = -1) {
+double Course::getAvgGrade() {
   double sum = 0;
-  if (id == -1) {
-    for (int i = 0; i < numStudents; i++)
-      sum += studentGrades[i];
-  } else {
-    for (int i = 0; i < numStudents; i++) {
-      if (studentIds[i] == id) {
-        return studentGrades[i];
-      }
-    }
+  for (int i = 0; i < numStudents; i++) {
+    sum += studentGrades[i];
   }
   return sum / numStudents;
 }

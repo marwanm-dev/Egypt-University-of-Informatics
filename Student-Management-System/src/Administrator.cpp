@@ -1,6 +1,7 @@
 #include "../include/Administrator.h"
 #include "../include/CONSTANTS.h"
 #include "../include/Instructor.h"
+#include "../include/Student.h"
 #include "../include/User.h"
 #include "swapIndices.cpp"
 #include <iomanip>
@@ -45,8 +46,7 @@ void Administrator::removeStudent(const int &id) {
     }
   }
 
-  if (initialNumStudents ==
-      numStudents) // if number of students did not decrease by 1
+  if (initialNumStudents == numStudents)
     cout << INVALID_ID;
 }
 
@@ -75,8 +75,7 @@ void Administrator::removeInstructor(const int &id) {
     }
   }
 
-  if (initialNumInstructors ==
-      numInstructors) // if number of instructors did not decrease by 1
+  if (initialNumInstructors == numInstructors)
     cout << INVALID_ID;
 }
 
@@ -104,8 +103,7 @@ void Administrator::removeCourse(const string &code) {
     }
   }
 
-  if (initialNumCourses ==
-      numCourses) // if number of courses did not decrease by 1
+  if (initialNumCourses == numCourses)
     cout << INVALID_CODE;
 }
 
@@ -149,22 +147,44 @@ void Administrator::display() const {
 
   // Display header for instructors
   cout << "Instructors:\n";
+  cout << LONG_DIVIDER;
   for (int i = 0; i < numInstructors; ++i)
     instructors[i].display();
+  cout << LONG_DIVIDER;
 
   // Display header for students
   cout << "Students:\n";
+  cout << LONG_DIVIDER;
   for (int i = 0; i < numStudents; ++i)
     students[i].display();
+  cout << LONG_DIVIDER;
 
   // Display header for courses
   cout << "Courses:" << endl;
+  cout << LONG_DIVIDER;
   for (int i = 0; i < numCourses; ++i)
     courses[i].display();
+  cout << LONG_DIVIDER;
   cout << endl;
 }
 
-void Administrator::handleMenu(Administrator *admins, int numAdmins) {
+Course *Administrator::getCourse(const string &code) const {
+  for (int i = 0; i < numCourses; ++i) {
+    if (courses[i].getCode() == code) {
+      return &courses[i];
+    }
+  }
+  return nullptr;
+}
+
+string *Administrator::getCourseCodes() const {
+  string *codes = new string[numCourses];
+  for (int i = 0; i < numCourses; ++i)
+    codes[i] = courses[i].getCode();
+  return codes;
+}
+
+void Administrator::handleMenu() {
   int choice;
   do {
     cout << "1. Add Student\n"
@@ -185,7 +205,7 @@ void Administrator::handleMenu(Administrator *admins, int numAdmins) {
       cout << "Student password: ";
       cin >> password;
 
-      Student student(username, password);
+      Student student(username, password, *this);
       addStudent(student);
       break;
     }

@@ -2,7 +2,7 @@
 #include "../include/CONSTANTS.h"
 #include "../include/Course.h"
 #include "../include/User.h"
-#include "swapIndices.cpp"
+#include "./swapIndices.cpp"
 #include <iomanip>
 #include <string>
 
@@ -18,18 +18,34 @@ Instructor::Instructor(const string &username, const string &password)
 
 Instructor::~Instructor() { delete[] courses; }
 
-void Instructor::addCourse(Course course) { courses[numCourses++] = course; }
+void Instructor::addCourse(const Course &course) {
+  if (numCourses < MAX_COURSES) {
+    courses[numCourses++] = course;
+    cout << course.getName() << " is added successfully." << endl;
+  } else {
+    cout << "Failed to a dd a course exceeding the maximum number of courses. "
+            "Please remove a course and add later.";
+  }
+}
 
-void Instructor::removeCourse(string code) {
+void Instructor::removeCourse(const string &code) {
+  if (numCourses == 0)
+    cout << "No courses to remove." << endl;
+
+  int initialNumCourses = numCourses;
   for (int i = 0; i < numCourses; i++) {
     if (courses[i].getCode() == code) {
       swapIndices(courses[i], courses[numCourses - 1]);
       numCourses--;
     }
   }
+
+  if (initialNumCourses == numCourses)
+    cout << INVALID_CODE;
 }
 
-void Instructor::setGrade(string code, int id, double grade) {
+void Instructor::setGrade(const string &code, const int &id,
+                          const double &grade) {
   for (int i = 0; i < numCourses; i++) {
     if (courses[i].getCode() == code) {
       int numStudents = courses[i].getNumStudents();
@@ -46,18 +62,15 @@ void Instructor::setGrade(string code, int id, double grade) {
   }
 }
 
-double Instructor::performStats(string code, string type) {
+double Instructor::performStats(const string &code, const string &type) {
   for (int i = 0; i < numCourses; i++) {
     if (courses[i].getCode() == code) {
-      if (type == "max") {
+      if (type == "max")
         return courses[i].getMaxGrade();
-      }
-      if (type == "min") {
+      if (type == "min")
         return courses[i].getMinGrade();
-      }
-      if (type == "avg") {
-        return courses[i].getAvgGrade(-1);
-      }
+      if (type == "avg")
+        return courses[i].getAvgGrade();
     }
   }
   return -1;

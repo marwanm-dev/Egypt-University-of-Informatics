@@ -1,6 +1,7 @@
 #ifndef STUDENT_H
 #define STUDENT_H
-
+class Administrator;
+#include "../include/Administrator.h"
 #include "../include/Course.h"
 #include "../include/User.h"
 #include <iostream>
@@ -11,15 +12,16 @@ class Student : public User {
   double *grades;
   int numCourses;
   const int MAX_COURSES;
+  const Administrator *ADMIN;
 
 public:
   Student();
   ~Student();
-  Student(const string &, const string &);
-  void registerCourse(Course);
-  void dropCourse(string);
-  double getGrade(string);
-  double getAvgGrades();
+  Student(const string &, const string &, const Administrator &);
+  void registerCourse(const string &);
+  void dropCourse(const string &);
+  double getGrade(const string &);
+  double getStats(const string &);
   void operator=(const Student &);
   void display() const;
   void handleMenu();

@@ -16,7 +16,6 @@ User::User(const string &username, const string &password)
     this->password = password;
   } else {
     this->username = "";
-    this->password = "";
     if (!isValidUsername(username))
       cout << INVALID_USERNAME;
     else

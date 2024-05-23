@@ -1,9 +1,9 @@
 #ifndef ADMINISTRATOR_H
 #define ADMINISTRATOR_H
 
+class Student;
 #include "../include/Course.h"
 #include "../include/Instructor.h"
-#include "../include/Student.h"
 #include "../include/User.h"
 #include <iostream>
 using namespace std;
@@ -35,8 +35,10 @@ public:
   Instructor *getInstructors() const { return instructors; };
   int getNumStudents() const { return numStudents; };
   Student *getStudents() const { return students; };
+  Course *getCourse(const string &code) const;
+  string *getCourseCodes() const;
   void display() const;
-  void handleMenu(Administrator *, int);
+  void handleMenu();
 };
 
 #endif

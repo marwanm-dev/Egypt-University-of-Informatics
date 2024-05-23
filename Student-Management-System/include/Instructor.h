@@ -15,10 +15,10 @@ public:
   Instructor();
   ~Instructor();
   Instructor(const string &, const string &);
-  void addCourse(Course);
-  void removeCourse(string);
-  void setGrade(string, int, double);
-  double performStats(string, string);
+  void addCourse(const Course &);
+  void removeCourse(const string &);
+  void setGrade(const string &, const int &, const double &);
+  double performStats(const string &, const string &);
   void operator=(const Instructor &);
   void display() const;
   void handleMenu();

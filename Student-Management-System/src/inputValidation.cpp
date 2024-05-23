@@ -26,8 +26,8 @@ bool isValidUsername(const string &username) {
   if (username.length() < 5 || username.length() > USERNAME_MAX_LENGTH)
     return false;
 
-  for (char c : username) {
-    if (!isAlphanumeric(c))
+  for (int i = 0; i < username.length(); ++i) {
+    if (!isAlphanumeric(username[i]))
       return false;
   }
 

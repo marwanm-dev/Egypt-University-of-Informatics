@@ -1,5 +1,6 @@
 #include "include/Administrator.h"
 #include "include/CONSTANTS.h"
+#include "include/Student.h"
 #include "include/User.h"
 #include <limits.h>
 using namespace std;
