@@ -5,6 +5,7 @@ class Administrator;
 
 #include "Administrator.h"
 #include "Course.h"
+#include "Student.h"
 #include "User.h"
 #include <iostream>
 using namespace std;

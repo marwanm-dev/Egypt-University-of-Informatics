@@ -55,6 +55,17 @@ void Student::dropCourse(const string &code) {
   if (initialNumCourses == numCourses)
     cout << INVALID_CODE;
 }
+
+void Student::setGrade(const string &code, const double &grade) {
+  if (numCourses == 0)
+    cout << "No courses to set yet." << endl;
+  for (int i = 0; i < numCourses; ++i) {
+    if (courses[i].getCode() == code) {
+      grades[i] = grade;
+    }
+  }
+}
+
 double Student::getGrade(const string &code) {
   for (int i = 0; i < numCourses; ++i) {
     if (courses[i].getCode() == code) {

@@ -18,10 +18,7 @@ Instructor::Instructor(const string &username, const string &password,
     cout << "Instructor can not be created due to invalid credentials." << endl;
 }
 
-Instructor::~Instructor() {
-  delete[] courses;
-  courses = nullptr;
-}
+Instructor::~Instructor() { delete[] courses; }
 
 void Instructor::addCourse(const string &code) {
   if (numCourses < MAX_COURSES) {
@@ -71,11 +68,20 @@ void Instructor::setGrade(const string &code, const int &id,
   for (int i = 0; i < numCourses; i++) {
     if (courses[i].getCode() == code) {
       courses[i].addStudentId(id, grade);
+
+      Student *students = ADMIN->getStudents();
+      for (int j = 0; j < ADMIN->getNumStudents(); ++j) {
+        if (students[j].getId() == id)
+          students[j].setGrade(code, grade);
+      }
       courseFound = true;
     }
   }
   if (!courseFound)
-    cout << "Sorry you are not teaching that course with the specified code.";
+    cout << "Sorry you are not teaching that course with the specified code."
+         << endl;
+  else
+    cout << "Student id and grade are saved." << endl;
 }
 
 double Instructor::performStats(const string &code, const string &type) {
