@@ -25,7 +25,7 @@ public:
   ~Course();
   void addInstructorId(const int &);
   void removeInstructorId(const int &);
-  void addStudentId(const int &);
+  void addStudentId(const int &, const double &);
   void removeStudentId(const int &);
   void addPrerequisite(const Course &);
   void removePrerequisite(const string &);

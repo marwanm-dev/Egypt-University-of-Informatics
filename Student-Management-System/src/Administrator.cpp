@@ -236,7 +236,7 @@ void Administrator::handleMenu() {
       cout << "Instructor password: ";
       cin >> password;
 
-      Instructor instructor(username, password);
+      Instructor instructor(username, password, *this);
       addInstructor(instructor);
       break;
     }

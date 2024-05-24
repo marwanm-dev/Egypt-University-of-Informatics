@@ -1,31 +1,47 @@
 #include "../include/Instructor.h"
+#include "../include/Administrator.h"
 #include "../include/CONSTANTS.h"
 #include "../include/Course.h"
-#include "../include/User.h"
 #include "./swapIndices.cpp"
 #include <iomanip>
 #include <string>
 
-Instructor::Instructor() : numCourses(0), MAX_COURSES(INSTRUCTOR_MAX_COURSES) {}
+Instructor::Instructor()
+    : numCourses(0), ADMIN(nullptr), MAX_COURSES(INSTRUCTOR_MAX_COURSES) {}
 
-Instructor::Instructor(const string &username, const string &password)
-    : User(username, password), numCourses(0),
+Instructor::Instructor(const string &username, const string &password,
+                       const Administrator &admin)
+    : User(username, password), numCourses(0), ADMIN(&admin),
       MAX_COURSES(INSTRUCTOR_MAX_COURSES) {
   courses = new Course[MAX_COURSES];
   if (username == "") // invalid credentials validated by the User constructor
     cout << "Instructor can not be created due to invalid credentials." << endl;
 }
 
-Instructor::~Instructor() { delete[] courses; }
+Instructor::~Instructor() {
+  delete[] courses;
+  courses = nullptr;
+}
 
-void Instructor::addCourse(const Course &course) {
+void Instructor::addCourse(const string &code) {
   if (numCourses < MAX_COURSES) {
-    courses[numCourses++] = course;
-    cout << course.getName() << " is added successfully." << endl;
-  } else {
-    cout << "Failed to a dd a course exceeding the maximum number of courses. "
-            "Please remove a course and add later.";
-  }
+    if (!ADMIN) {
+      cout << "ADMIN nullptr\n";
+      return;
+    }
+    const Course *course = ADMIN->getCourse(code);
+    if (course) {
+      std::cout << "Course to be added: " << course->getName() << " ("
+                << course->getCode() << ")" << std::endl;
+      courses[numCourses++] = *course;
+      cout << course->getName() << " is added successfully." << endl;
+    } else
+      cout << "Course with this specified code is not found in the system."
+           << endl;
+  } else
+    cout << "Failed to add a course exceeding the maximum number of courses. "
+            "Please remove a course and add later."
+         << endl;
 }
 
 void Instructor::removeCourse(const string &code) {
@@ -46,20 +62,20 @@ void Instructor::removeCourse(const string &code) {
 
 void Instructor::setGrade(const string &code, const int &id,
                           const double &grade) {
+  if (numCourses == 0) {
+    cout << "You are not teaching any courses yet." << endl;
+    return;
+  }
+
+  bool courseFound = false;
   for (int i = 0; i < numCourses; i++) {
     if (courses[i].getCode() == code) {
-      int numStudents = courses[i].getNumStudents();
-      for (int j = 0; j < numStudents; j++) {
-        if (courses[i].getStudentIds()[j] == id) {
-          courses[i].getStudentGrades()[j] = grade;
-        } else {
-          courses[i].getStudentIds()[numStudents] = id;
-          courses[i].getStudentGrades()[numStudents] = grade;
-          courses[i].incrementNumStudents();
-        }
-      }
+      courses[i].addStudentId(id, grade);
+      courseFound = true;
     }
   }
+  if (!courseFound)
+    cout << "Sorry you are not teaching that course with the specified code.";
 }
 
 double Instructor::performStats(const string &code, const string &type) {
@@ -79,8 +95,9 @@ double Instructor::performStats(const string &code, const string &type) {
 void Instructor::operator=(const Instructor &instructor) {
   User::operator=(instructor);
   numCourses = instructor.numCourses;
+  ADMIN = instructor.ADMIN;
   delete[] courses;
-  courses = new Course[numCourses];
+  courses = new Course[MAX_COURSES];
   for (int i = 0; i < numCourses; ++i)
     courses[i] = instructor.courses[i];
 }
@@ -110,26 +127,68 @@ void Instructor::handleMenu() {
     cin >> choice;
 
     switch (choice) {
-    case 1:
-      // Add course logic
-      cout << "Add Course logic here.\n";
+    case 1: {
+      if (ADMIN->getNumCourses() == 0) {
+        cout << "No courses yet." << endl;
+        break;
+      }
+      string *codes = ADMIN->getCourseCodes();
+      string code;
+      cout << "Available courses to register in:" << endl;
+      for (int i = 0; i < ADMIN->getNumCourses(); ++i) {
+        cout << codes[i];
+        if (i != ADMIN->getNumCourses() - 1)
+          cout << ", ";
+        else
+          cout << endl;
+      }
+      cout << "Type the course code: ";
+      cin >> code;
+      addCourse(code);
+      delete[] codes;
       break;
-    case 2:
-      // Remove course logic
-      cout << "Remove Course logic here.\n";
+    }
+    case 2: {
+      string code;
+      cout << "Enter the course code to remove: ";
+      cin >> code;
+      removeCourse(code);
       break;
-    case 3:
-      // Add/Update student grade logic
-      cout << "Add/Update Student Grade logic here.\n";
+    }
+    case 3: {
+      string code;
+      int id;
+      double grade;
+      cout << "Enter the course code: ";
+      cin >> code;
+      cout << "Enter the student id: ";
+      cin >> id;
+      cout << "Enter the new student grade: ";
+      cin >> grade;
+      setGrade(code, id, grade);
       break;
-    case 4:
-      // Perform course statistics logic
-      cout << "Perform Course Statistics logic here.\n";
+    }
+    case 4: {
+      string code;
+      cout << "Enter the course code: ";
+      cin >> code;
+      cout << "1. Get the average grade\n2. Get the maximum grade\n3. Get the "
+              "minimum grade\n";
+      cin >> choice;
+      if (choice == 1)
+        cout << performStats("avg", code);
+      else if (choice == 2)
+        cout << performStats("max", code);
+      else if (choice == 3)
+        cout << performStats("min", code);
+      else
+        cout << "Invalid input.";
       break;
-    case 5:
-      // Display all information logic
-      cout << "Display All Information logic here.\n";
+    }
+    case 5: {
+      display();
       break;
+    }
     case 6:
       // Logout
       return;

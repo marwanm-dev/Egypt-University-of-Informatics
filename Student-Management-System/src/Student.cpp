@@ -25,11 +25,18 @@ Student::~Student() {
 }
 
 void Student::registerCourse(const string &code) {
-  const Course *course = ADMIN->getCourse(code);
-  if (course != nullptr)
-    courses[numCourses++] = *course;
-  else
-    cout << "Course with this specified code is not found in the system."
+  if (numCourses < MAX_COURSES) {
+    const Course *course = ADMIN->getCourse(code);
+    if (course) {
+      courses[numCourses++] = *course;
+      cout << course->getName() << " is registered successfully." << endl;
+    } else
+      cout << "Course with this specified code is not found in the system."
+           << endl;
+  } else
+    cout << "Failed to register a course exceeding the maximum number of "
+            "courses. "
+            "Please remove a course and add later."
          << endl;
 }
 
@@ -123,8 +130,6 @@ void Student::operator=(const Student &student) {
 }
 void Student::handleMenu() {
   int choice;
-  if (ADMIN == nullptr)
-    cout << " HELP ";
   do {
     cout << "1. Enroll in a new Course\n2. Drop a Course\n3. View Grade in a "
             "Specific Course\n4. Get statistics in all courses\n"
@@ -134,7 +139,7 @@ void Student::handleMenu() {
     switch (choice) {
     case 1: {
       if (ADMIN->getNumCourses() == 0) {
-        cout << "No courses yet.";
+        cout << "No courses yet." << endl;
         break;
       }
       string *codes = ADMIN->getCourseCodes();
@@ -174,7 +179,6 @@ void Student::handleMenu() {
       break;
     }
     case 4: {
-      int choice;
       cout << "1. Get the average grade\n2. Get the maximum grade\n3. Get the "
               "minimum grade\n";
       cin >> choice;

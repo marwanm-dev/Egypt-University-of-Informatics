@@ -2,8 +2,8 @@
 #define ADMINISTRATOR_H
 
 class Student;
+class Instructor;
 #include "../include/Course.h"
-#include "../include/Instructor.h"
 #include "../include/User.h"
 #include <iostream>
 using namespace std;

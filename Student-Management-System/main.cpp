@@ -1,5 +1,6 @@
 #include "include/Administrator.h"
 #include "include/CONSTANTS.h"
+#include "include/Instructor.h"
 #include "include/Student.h"
 #include "include/User.h"
 #include <limits.h>
@@ -9,11 +10,14 @@ int main() {
   Administrator admin(ADMIN_USERNAME, ADMIN_PASSWORD);
   int choice;
   string username, password;
-  /* Student s("marwan", "Marwan123!", admin); */
-  /* Course c("Advancedphysics", "C-PH112", 3); */
-  /* admin.addStudent(s); */
-  /* admin.addCourse(c); */
-  /* s.handleMenu(); */
+
+  Student s("mazen", "Mazen123!", admin);
+  Instructor i("marwan", "Marwan123!", admin);
+  Course c("calculus", "C-MA112", 3);
+  admin.addStudent(s);
+  admin.addInstructor(i);
+  admin.addCourse(c);
+
   while (true) {
     cout << "1. Login\n2. Exit\n";
     cin >> choice;

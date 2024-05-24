@@ -6,7 +6,7 @@
 
 Course::Course()
     : name(""), code(""), credits(0), numStudents(0), numInstructors(0),
-      numPrerequisites(0), studentCapacity(1),
+      numPrerequisites(0), studentCapacity(INITIAL_CAPACITY),
       MAX_PREREQUISITES(MAX_PREREQUISITE_COURSES),
       MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {}
 Course::Course(const string &name, const string &code, const int &credits)
@@ -63,22 +63,37 @@ void Course::removePrerequisite(const string &code) {
   } // if number of instructors did not decrease by 1
 }
 
-void Course::addStudentId(const int &id) {
-  bool eligible = false;
+void Course::addStudentId(const int &id, const double &grade) {
+  bool eligible = true; // Assuming a student must complete all prerequisites
   for (int i = 0; i < numPrerequisites; ++i) {
-    for (int j = 0; j < numStudents; ++j) {
-      if (prerequisites[i].studentIds[j] == id)
-        eligible = true;
+    bool hasPrerequisite = false;
+    for (int j = 0; j < prerequisites[i].numStudents; ++j) {
+      if (prerequisites[i].studentIds[j] == id) {
+        hasPrerequisite = true;
+        break;
+      }
+    }
+    if (!hasPrerequisite) {
+      eligible = false;
+      break;
     }
   }
+
   if (eligible) {
+    for (int i = 0; i < numStudents; ++i) {
+      if (studentIds[i] == id)
+        studentGrades[i] = grade;
+      else {
+        studentIds[numStudents] = id;
+        studentGrades[numStudents++] = grade;
+      }
+    }
     if (numStudents == studentCapacity)
       resizeStudents();
     studentIds[numStudents] = id;
-    studentGrades[numStudents++] = id;
-
+    studentGrades[numStudents++] = grade;
   } else {
-    cout << "Ineligible due to missing preqrequisite courses:" << endl;
+    cout << "Ineligible due to missing prerequisite courses:" << endl;
     for (int i = 0; i < numPrerequisites; ++i)
       cout << i + 1 << ": " << prerequisites[i].code << endl;
   }
@@ -131,29 +146,81 @@ double Course::getAvgGrade() {
   return sum / numStudents;
 }
 void Course::incrementNumStudents() { ++numStudents; }
-void Course::operator=(const Course &course) {
+
+void Course::operator=(const Course &other) {
+
+  // Debug statements to check state
+  std::cout << "Assigning from course: " << other.getName() << std::endl;
+
+  // Clean up current resources
   delete[] instructorIds;
   delete[] studentIds;
   delete[] studentGrades;
   delete[] prerequisites;
-  instructorIds = new int[course.numInstructors];
-  studentIds = new int[course.numStudents];
-  studentGrades = new double[course.numStudents];
-  prerequisites = new Course[course.numPrerequisites];
-  name = course.name;
-  code = course.code;
-  credits = course.credits;
-  numStudents = course.numStudents;
-  numInstructors = course.numInstructors;
-  for (int i = 0; i < numStudents; i++) {
-    studentIds[i] = course.studentIds[i];
-    studentGrades[i] = course.studentGrades[i];
+
+  // Copy simple fields
+  name = other.name;
+  std::cout << "Assigned name: " << name << std::endl;
+  code = other.code;
+  std::cout << "Assigned code: " << code << std::endl;
+  credits = other.credits;
+  numStudents = other.numStudents;
+  numInstructors = other.numInstructors;
+  numPrerequisites = other.numPrerequisites;
+  studentCapacity = other.studentCapacity;
+
+  // Allocate new resources
+  instructorIds = new int[MAX_INSTRUCTORS];
+  studentIds = new int[studentCapacity];
+  studentGrades = new double[studentCapacity];
+  prerequisites = new Course[MAX_PREREQUISITES];
+
+  // Copy arrays
+  for (int i = 0; i < numStudents; ++i) {
+    studentIds[i] = other.studentIds[i];
+    studentGrades[i] = other.studentGrades[i];
   }
-  for (int i = 0; i < numInstructors; i++)
-    instructorIds[i] = course.instructorIds[i];
-  for (int i = 0; i < numPrerequisites; ++i)
-    prerequisites[i] = course.prerequisites[i];
+
+  for (int i = 0; i < numPrerequisites; ++i) {
+    prerequisites[i] = other.prerequisites[i];
+  }
+
+  for (int i = 0; i < numInstructors; ++i) {
+    instructorIds[i] = other.instructorIds[i];
+  }
 }
+/* void Course::operator=(const Course &course) { */
+/*   cout << "Assigning from course: " << course.getName() << " to " << name */
+/*        << endl; */
+/*   name = course.name; */
+/*   code = course.code; */
+/*   credits = course.credits; */
+/*   numStudents = course.numStudents; */
+/*   numInstructors = course.numInstructors; */
+/*   numPrerequisites = course.numPrerequisites; */
+/*   studentCapacity = course.studentCapacity; */
+/*   delete[] instructorIds; */
+/*   delete[] studentIds; */
+/*   delete[] studentGrades; */
+/*   delete[] prerequisites; */
+/*   instructorIds = new int[MAX_INSTRUCTORS]; */
+/*   studentIds = new int[studentCapacity]; */
+/*   studentGrades = new double[studentCapacity]; */
+/*   prerequisites = new Course[MAX_PREREQUISITES]; */
+/*   for (int i = 0; i < numStudents; i++) { */
+/*     studentIds[i] = course.studentIds[i]; */
+/*     studentGrades[i] = course.studentGrades[i]; */
+/*   } */
+/**/
+/*   for (int i = 0; i < numPrerequisites; ++i) */
+/*     prerequisites[i] = course.prerequisites[i]; */
+/*   for (int i = 0; i < numInstructors; ++i) */
+/*     instructorIds[i] = course.instructorIds[i]; */
+/*   for (int i = 0; i < numStudents; ++i) { */
+/*     studentIds[i] = course.studentIds[i]; */
+/*     studentGrades[i] = course.studentGrades[i]; */
+/*   } */
+/* } */
 void Course::display() const {
   cout << left << setw(COURSE_CODE_MAX_LENGTH + SPACE) << "Code"
        << setw(COURSE_NAME_MAX_LENGTH + SPACE) << "Name"
