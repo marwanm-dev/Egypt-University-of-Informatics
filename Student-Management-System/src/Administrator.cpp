@@ -64,6 +64,8 @@ void Administrator::removeStudent(const int &id) {
   int initialNumStudents = numStudents;
   for (int i = 0; i < numStudents; ++i) {
     if (students[i].getId() == id) {
+      for (int i = 0; i < numCourses; ++i)
+        courses[i].removeStudent(id);
       swapIndices(students[i], students[numStudents - 1]);
       numStudents--;
     }
@@ -106,6 +108,8 @@ void Administrator::removeInstructor(const int &id) {
   int initialNumInstructors = numInstructors;
   for (int i = 0; i < numInstructors; i++) {
     if (instructors[i].getId() == id) {
+      for (int i = 0; i < numCourses; ++i)
+        courses[i].removeInstructorId(id);
       swapIndices(instructors[i], instructors[numInstructors - 1]);
       numInstructors--;
     }
@@ -147,6 +151,11 @@ void Administrator::removeCourse(const string &code) {
   int initialNumCourses = numCourses;
   for (int i = 0; i < numCourses; i++) {
     if (courses[i].getCode() == code) {
+      for (int i = 0; i < numStudents; ++i)
+        students[i].dropCourse(code);
+      for (int i = 0; i < numInstructors; ++i)
+        instructors[i].removeCourse(code);
+
       swapIndices(courses[i], courses[numCourses - 1]);
       numCourses--;
     }

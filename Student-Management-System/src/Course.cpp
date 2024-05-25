@@ -12,6 +12,24 @@ Course::Course()
   studentIds = new int[studentCapacity];
   studentGrades = new double[studentCapacity];
 }
+// Copy constructor
+Course::Course(const Course &course)
+    : name(course.name), code(course.code), credits(course.credits),
+      numStudents(course.numStudents), numInstructors(course.numInstructors),
+      studentCapacity(course.studentCapacity),
+      MAX_INSTRUCTORS(course.MAX_INSTRUCTORS) {
+  instructorIds = new int[MAX_INSTRUCTORS];
+  studentIds = new int[studentCapacity];
+  studentGrades = new double[studentCapacity];
+
+  for (int i = 0; i < numInstructors; ++i)
+    instructorIds[i] = course.instructorIds[i];
+
+  for (int i = 0; i < numStudents; ++i) {
+    studentIds[i] = course.studentIds[i];
+    studentGrades[i] = course.studentGrades[i];
+  }
+}
 
 Course::Course(const string &name, const string &code, const int &credits)
     : numStudents(0), numInstructors(0), studentCapacity(1),
@@ -146,25 +164,6 @@ void Course::resizeStudents() {
   delete[] studentGrades;
   studentIds = newStudentIds;
   studentGrades = newStudentGrades;
-}
-
-// Copy constructor
-Course::Course(const Course &course)
-    : name(course.name), code(course.code), credits(course.credits),
-      numStudents(course.numStudents), numInstructors(course.numInstructors),
-      studentCapacity(course.studentCapacity),
-      MAX_INSTRUCTORS(course.MAX_INSTRUCTORS) {
-  instructorIds = new int[MAX_INSTRUCTORS];
-  studentIds = new int[studentCapacity];
-  studentGrades = new double[studentCapacity];
-
-  for (int i = 0; i < numInstructors; ++i)
-    instructorIds[i] = course.instructorIds[i];
-
-  for (int i = 0; i < numStudents; ++i) {
-    studentIds[i] = course.studentIds[i];
-    studentGrades[i] = course.studentGrades[i];
-  }
 }
 
 void Course::operator=(const Course &course) {

@@ -60,8 +60,10 @@ void Student::registerCourse(const string &code) {
 }
 
 void Student::dropCourse(const string &code) {
-  if (numCourses == 0)
+  if (numCourses == 0) {
     cout << "No courses to drop." << endl;
+    return;
+  }
 
   int initialNumCourses = numCourses;
   for (int i = 0; i < numCourses; ++i) {
@@ -101,6 +103,10 @@ void Student::setGrade(const string &code, const double &grade) {
 }
 
 double Student::getGrade(const string &code) {
+  if (numCourses == 0) {
+    cout << "No courses to view your grade in" << endl;
+    return -1;
+  }
   for (int i = 0; i < numCourses; ++i) {
     if (courses[i].getCode() == code) {
       int numStudents = courses[i].getNumStudents();

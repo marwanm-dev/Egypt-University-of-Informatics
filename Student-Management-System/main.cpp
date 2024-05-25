@@ -9,6 +9,7 @@
 using namespace std;
 
 int main() {
+  srand(time(0));
   Administrator admin(ADMIN_USERNAME, ADMIN_PASSWORD);
   int choice;
   string username, password;

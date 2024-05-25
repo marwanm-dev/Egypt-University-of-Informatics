@@ -52,8 +52,10 @@ void Instructor::addCourse(const string &code) {
 }
 
 void Instructor::removeCourse(const string &code) {
-  if (numCourses == 0)
+  if (numCourses == 0) {
     cout << "No courses to remove." << endl;
+    return;
+  }
 
   int initialNumCourses = numCourses;
   for (int i = 0; i < numCourses; i++) {
@@ -94,6 +96,10 @@ void Instructor::setGrade(const string &code, const int &id,
 }
 
 double Instructor::performStats(const string &code, const string &type) {
+  if (numCourses == 0) {
+    cout << "No courses to perform statistics on" << endl;
+    return -1;
+  }
   for (int i = 0; i < numCourses; i++) {
     if (courses[i].getCode() == code) {
       if (type == "max")
