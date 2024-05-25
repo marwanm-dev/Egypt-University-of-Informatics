@@ -18,9 +18,9 @@ class Student : public User {
 
 public:
   Student();
-  ~Student();
   Student(const string &, const string &, const Administrator &);
-  void registerCourse(const string &, const double &);
+  ~Student();
+  void registerCourse(const string &);
   void dropCourse(const string &);
   void setGrade(const string &, const double &);
   double getGrade(const string &);

@@ -15,8 +15,8 @@ class Administrator : public User {
   int studentCapacity;
   int instructorCapacity;
   int courseCapacity;
-  int numInstructors;
   int numStudents;
+  int numInstructors;
   int numCourses;
 
 public:
@@ -29,18 +29,18 @@ public:
   void removeInstructor(const int &);
   void addCourse(const Course &);
   void removeCourse(const string &);
+  Course *getCourse(const string &) const;
+  string *getCourseCodes() const;
   void resizeStudents();
   void resizeInstructors();
   void resizeCourses();
-  int getNumInstructors() const { return numInstructors; };
-  Instructor *getInstructors() const { return instructors; };
-  int getNumStudents() const { return numStudents; };
-  Student *getStudents() const { return students; };
-  int getNumCourses() const { return numCourses; };
-  Course *getCourse(const string &code) const;
-  string *getCourseCodes() const;
   void display() const;
   void handleMenu();
+  int getNumStudents() const { return numStudents; };
+  Student *getStudents() const { return students; };
+  int getNumInstructors() const { return numInstructors; };
+  Instructor *getInstructors() const { return instructors; };
+  int getNumCourses() const { return numCourses; };
 };
 
 #endif

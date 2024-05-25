@@ -11,33 +11,33 @@ class Course {
   int *instructorIds;
   int *studentIds;
   double *studentGrades;
-  int numInstructors;
   int numStudents;
+  int numInstructors;
   int studentCapacity;
   const int MAX_INSTRUCTORS;
 
 public:
   Course();
+  Course(const Course &);
   Course(const string &, const string &, const int &);
   ~Course();
   void addInstructorId(const int &);
   void removeInstructorId(const int &);
-  void addStudentId(const int &, const double &);
-  void removeStudentId(const int &);
-  void resizeStudents();
+  void addStudent(const int &, const double &);
+  void removeStudent(const int &);
   double getGrade(const int &);
+  double getAvgGrade();
   double getMaxGrade();
   double getMinGrade();
-  double getAvgGrade();
+  void resizeStudents();
+  void operator=(const Course &);
+  void display() const;
   string getCode() const { return code; }
   string getName() const { return name; }
   int getCredits() const { return credits; }
   int getNumStudents() { return numStudents; };
   int *getStudentIds() { return studentIds; };
   double *getStudentGrades() { return studentGrades; };
-  void incrementNumStudents();
-  void operator=(const Course &);
-  void display() const;
 };
 
 #endif

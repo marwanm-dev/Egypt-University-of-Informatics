@@ -7,8 +7,6 @@ using namespace std;
 
 User::User() : id(0), username(""), password("") {}
 
-User::~User() {}
-
 User::User(const string &username, const string &password)
     : id(1 + (rand() % INT_MAX)) {
   if (isValidUsername(username) && isValidPassword(password)) {
@@ -17,11 +15,21 @@ User::User(const string &username, const string &password)
   } else {
     this->username = "";
     if (!isValidUsername(username))
-      cout << INVALID_USERNAME;
+      cout << "Usernames must be 4-20 characters long and can contain letters "
+              "(a-z), numbers (0-9), and periods (.). Usernames cannot contain "
+              "an ampersand (&), equals sign (=), underscore (_), apostrophe "
+              "('), dash (-), plus sign (+), comma (,), brackets (<,>), or "
+              "more than one period (.)"
+           << endl;
     else
-      cout << INVALID_PASSWORD;
+      cout << "Password is invalid. It must be 8-32 characters long and "
+              "contain at least one uppercase letter, one lowercase letter, "
+              "one digit, and one special character."
+           << endl;
   }
 }
+
+User::~User() {}
 
 bool User::checkAuth(const string &username, const string &password) const {
   return this->username == username && this->password == password;

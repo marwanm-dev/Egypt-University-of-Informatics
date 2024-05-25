@@ -18,8 +18,8 @@ class Instructor : public User {
 
 public:
   Instructor();
-  ~Instructor();
   Instructor(const string &, const string &, const Administrator &);
+  ~Instructor();
   void addCourse(const string &);
   void removeCourse(const string &);
   void setGrade(const string &, const int &, const double &);

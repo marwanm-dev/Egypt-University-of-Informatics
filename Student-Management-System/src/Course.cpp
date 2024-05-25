@@ -7,7 +7,12 @@
 Course::Course()
     : name(""), code(""), credits(0), numStudents(0), numInstructors(0),
       studentCapacity(INITIAL_CAPACITY),
-      MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {}
+      MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {
+  instructorIds = new int[MAX_INSTRUCTORS];
+  studentIds = new int[studentCapacity];
+  studentGrades = new double[studentCapacity];
+}
+
 Course::Course(const string &name, const string &code, const int &credits)
     : numStudents(0), numInstructors(0), studentCapacity(1),
       MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {
@@ -22,12 +27,13 @@ Course::Course(const string &name, const string &code, const int &credits)
   } else {
     this->name = "";
     if (!isValidCourseCode(code))
-      cout << INVALID_CODE;
+      cout << "Course code is invalid. It must be all uppercase letters with "
+              "at least one number and one dash."
+           << endl;
     else if (!isValidCourseName(name))
-      cout << INVALID_COURSE_NAME;
+      cout << "Course name is invalid. It must 8-50 characters." << endl;
     else
-      cout << INVALID_COURSE_CREDITS;
-
+      cout << "Credits is invalid. It must be between 0 and 6." << endl;
     cout << "Course can not be created due to invalid information." << endl;
   }
 }
@@ -43,34 +49,29 @@ void Course::addInstructorId(const int &id) {
     instructorIds[numInstructors++] = id;
   } else
     cout << "Failed to add an instructor exceeding the maximum number of "
-            "instructors per course."
+            "instructors per course. Please remove and add later."
          << endl;
 }
+
 void Course::removeInstructorId(const int &id) {
   for (int i = 0; i < numInstructors; ++i) {
     if (instructorIds[i] == id) {
       swapIndices(instructorIds[i], instructorIds[numInstructors - 1]);
       --numInstructors;
-    }
-  }
-}
-void Course::removeStudentId(const int &id) {
-  for (int i = 0; i < numStudents; ++i) {
-    if (studentIds[i] == id) {
-      swapIndices(studentIds[i], studentIds[numStudents - 1]);
-      swapIndices(studentGrades[i], studentGrades[numStudents - 1]);
-      --numStudents;
+      break;
+      cout << "Instructor removed successfully." << endl;
     }
   }
 }
 
-void Course::addStudentId(const int &id, const double &grade) {
+void Course::addStudent(const int &id, const double &grade) {
   bool found = false;
   for (int i = 0; i < numStudents; ++i) {
     if (studentIds[i] == id) {
       studentGrades[i] = grade;
       found = true;
       break;
+      cout << "Overwritten the student grade successfully" << endl;
     }
   }
   if (!found) {
@@ -82,6 +83,55 @@ void Course::addStudentId(const int &id, const double &grade) {
   }
 }
 
+void Course::removeStudent(const int &id) {
+  for (int i = 0; i < numStudents; ++i) {
+    if (studentIds[i] == id) {
+      swapIndices(studentIds[i], studentIds[numStudents - 1]);
+      swapIndices(studentGrades[i], studentGrades[numStudents - 1]);
+      --numStudents;
+      break;
+      cout << "Student removed sucessfully." << endl;
+    }
+  }
+}
+
+double Course::getGrade(const int &id) {
+  for (int i = 0; i < numStudents; ++i) {
+    if (studentIds[i] == id)
+      return studentGrades[i];
+  }
+  return -1;
+}
+
+double Course::getAvgGrade() {
+  double sum = 0;
+  for (int i = 0; i < numStudents; i++) {
+    if (studentGrades[i] != -1) // Indicating the grade is not set yet
+      sum += studentGrades[i];
+  }
+  return sum / numStudents;
+}
+
+double Course::getMaxGrade() {
+  int max = studentGrades[0];
+  for (int i = 1; i < numStudents; i++) {
+    if (studentGrades[i] > max)
+      max = studentGrades[i];
+  }
+  return max;
+}
+
+double Course::getMinGrade() {
+  int min = studentGrades[0];
+  for (int i = 0; i < numStudents; i++) {
+    if (studentGrades[i] < min)
+      if (studentGrades[i] != -1) // Indicating the grade is not set yet
+        min = studentGrades[i];
+  }
+  return min;
+}
+
+// Resizes dynamic arrays based on their current capacity
 void Course::resizeStudents() {
   studentCapacity *= 2;
   int *newStudentIds = new int[studentCapacity];
@@ -98,38 +148,24 @@ void Course::resizeStudents() {
   studentGrades = newStudentGrades;
 }
 
-double Course::getGrade(const int &id) {
+// Copy constructor
+Course::Course(const Course &course)
+    : name(course.name), code(course.code), credits(course.credits),
+      numStudents(course.numStudents), numInstructors(course.numInstructors),
+      studentCapacity(course.studentCapacity),
+      MAX_INSTRUCTORS(course.MAX_INSTRUCTORS) {
+  instructorIds = new int[MAX_INSTRUCTORS];
+  studentIds = new int[studentCapacity];
+  studentGrades = new double[studentCapacity];
+
+  for (int i = 0; i < numInstructors; ++i)
+    instructorIds[i] = course.instructorIds[i];
+
   for (int i = 0; i < numStudents; ++i) {
-    if (studentIds[i] == id)
-      return studentGrades[i];
+    studentIds[i] = course.studentIds[i];
+    studentGrades[i] = course.studentGrades[i];
   }
-  return -1;
 }
-double Course::getMaxGrade() {
-  int max = studentGrades[0];
-  for (int i = 1; i < numStudents; i++) {
-    if (studentGrades[i] > max) {
-      max = studentGrades[i];
-    }
-  }
-  return max;
-}
-double Course::getMinGrade() {
-  int min = studentGrades[0];
-  for (int i = 0; i < numStudents; i++) {
-    if (studentGrades[i] < min)
-      min = studentGrades[i];
-  }
-  return min;
-}
-double Course::getAvgGrade() {
-  double sum = 0;
-  for (int i = 0; i < numStudents; i++) {
-    sum += studentGrades[i];
-  }
-  return sum / numStudents;
-}
-void Course::incrementNumStudents() { ++numStudents; }
 
 void Course::operator=(const Course &course) {
   delete[] instructorIds;
@@ -147,13 +183,12 @@ void Course::operator=(const Course &course) {
   studentIds = new int[studentCapacity];
   studentGrades = new double[studentCapacity];
 
+  for (int i = 0; i < numInstructors; ++i)
+    instructorIds[i] = course.instructorIds[i];
+
   for (int i = 0; i < numStudents; ++i) {
     studentIds[i] = course.studentIds[i];
     studentGrades[i] = course.studentGrades[i];
-  }
-
-  for (int i = 0; i < numInstructors; ++i) {
-    instructorIds[i] = course.instructorIds[i];
   }
 }
 void Course::display() const {

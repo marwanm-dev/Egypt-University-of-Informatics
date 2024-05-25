@@ -13,14 +13,14 @@ class User {
 
 public:
   User();
-  virtual ~User();
   User(const string &, const string &);
+  virtual ~User();
   bool checkAuth(const string &, const string &) const;
+  void operator=(const User &);
+  void display() const;
+  virtual void handleMenu();
   int getId() const { return id; }
   string getUsername() const { return username; }
-  void operator=(const User &);
-  virtual void display() const;
-  virtual void handleMenu();
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include "../include/Student.h"
 #include "../include/User.h"
 #include "fstream"
+#include "inputValidation.cpp"
 #include "swapIndices.cpp"
 #include <iomanip>
 
@@ -32,16 +33,28 @@ Administrator::~Administrator() {
 }
 
 void Administrator::addStudent(const Student &student) {
-  if (student.getUsername() ==
-      "") // Due to the User constructor failed to set invalid credentials
+  if (student.getUsername() == "")
+  // A flag indicating that the User constructor failed to set invalid
+  // credentials
   {
     cout << "Failed to add a student with invalid credentials." << endl;
     return;
   }
-  if (numStudents == studentCapacity)
-    resizeStudents();
-  students[numStudents++] = student;
-  cout << student.getUsername() << " is added successfully." << endl;
+  bool studentFound = false;
+  for (int i = 0; i < numStudents; ++i) {
+    if (students[i].getUsername() == student.getUsername())
+      studentFound = true;
+  }
+  if (!studentFound) {
+
+    if (numStudents == studentCapacity)
+      resizeStudents();
+    students[numStudents++] = student;
+    cout << student.getUsername() << " is added successfully." << endl;
+  } else
+    cout << "A student with the same username is found. Try again with "
+            "different username."
+         << endl;
 }
 
 void Administrator::removeStudent(const int &id) {
@@ -56,21 +69,34 @@ void Administrator::removeStudent(const int &id) {
     }
   }
 
-  if (initialNumStudents == numStudents)
-    cout << INVALID_ID;
+  if (initialNumStudents == numStudents) // Did not find the student
+    cout << "A student with that id was not found" << endl;
+  else
+    cout << "Student removed successfully." << endl;
 }
 
 void Administrator::addInstructor(const Instructor &instructor) {
   if (instructor.getUsername() ==
-      "") // Due to the User constructor failed to set invalid credentials
+      "") // A flag indicating that the User constructor failed to set invalid
+          // credentials
   {
     cout << "Failed to add an instructor with invalid credentials." << endl;
     return;
   }
-  if (numInstructors == instructorCapacity)
-    resizeInstructors();
-  instructors[numInstructors++] = instructor;
-  cout << instructor.getUsername() << " is added successfully." << endl;
+  bool instructorFound = false;
+  for (int i = 0; i < numInstructors; ++i) {
+    if (instructors[i].getUsername() == instructor.getUsername())
+      instructorFound = true;
+  }
+  if (!instructorFound) {
+    if (numInstructors == instructorCapacity)
+      resizeInstructors();
+    instructors[numInstructors++] = instructor;
+    cout << instructor.getUsername() << " is added successfully." << endl;
+  } else
+    cout << "An instructor with the same username is found. Try again with "
+            "different username."
+         << endl;
 }
 
 void Administrator::removeInstructor(const int &id) {
@@ -85,22 +111,35 @@ void Administrator::removeInstructor(const int &id) {
     }
   }
 
-  if (initialNumInstructors == numInstructors)
-    cout << INVALID_ID;
+  if (initialNumInstructors == numInstructors) // Did not find the instructor
+    cout << "An instructor with that id was not found" << endl;
+  else
+    cout << "Instructor removed successfully." << endl;
 }
 
 void Administrator::addCourse(const Course &course) {
-  if (course.getName() ==
-      "") // Due to the Course constructor failed to set invalid information
+  if (course.getName() == "") // A flag indicating that the Course constructor
+                              // failed to set invalid information
   {
     cout << "Failed to add a course with invalid information." << endl;
     return;
   }
-  if (numCourses == courseCapacity)
-    resizeCourses();
-  courses[numCourses++] = course;
-  cout << course.getName() << " is added successfully." << endl;
+  bool courseFound = false;
+  for (int i = 0; i < numCourses; ++i) {
+    if (courses[i].getCode() == course.getCode())
+      courseFound = true;
+  }
+  if (!courseFound) {
+    if (numCourses == courseCapacity)
+      resizeCourses();
+    courses[numCourses++] = course;
+    cout << course.getName() << " is added successfully." << endl;
+  } else
+    cout << "A course with the same code is found. Try again with "
+            "different code."
+         << endl;
 }
+
 void Administrator::removeCourse(const string &code) {
   if (numCourses == 0)
     cout << "No courses to remove." << endl;
@@ -113,10 +152,13 @@ void Administrator::removeCourse(const string &code) {
     }
   }
 
-  if (initialNumCourses == numCourses)
-    cout << INVALID_CODE;
+  if (initialNumCourses == numCourses) // Did not find the course
+    cout << "The course with the specified code was not found!" << endl;
+  else
+    cout << "Course removed successfully." << endl;
 }
 
+// Resizes dynamic arrays based on their current capacity
 void Administrator::resizeStudents() {
   studentCapacity *= 2;
   Student *newStudents = new Student[studentCapacity];
@@ -126,6 +168,25 @@ void Administrator::resizeStudents() {
 
   delete[] students;
   students = newStudents;
+}
+
+Course *Administrator::getCourse(const string &code) const {
+  for (int i = 0; i < numCourses; ++i) {
+    if (courses[i].getCode() == code) {
+      return &courses[i];
+    }
+  }
+  return nullptr;
+}
+
+string *Administrator::getCourseCodes() const {
+  if (numCourses == 0)
+    return nullptr;
+  cout << numCourses << endl;
+  string *codes = new string[numCourses];
+  for (int i = 0; i < numCourses; ++i)
+    codes[i] = courses[i].getCode();
+  return codes;
 }
 
 void Administrator::resizeInstructors() {
@@ -178,25 +239,6 @@ void Administrator::display() const {
   cout << endl;
 }
 
-Course *Administrator::getCourse(const string &code) const {
-  for (int i = 0; i < numCourses; ++i) {
-    if (courses[i].getCode() == code) {
-      return &courses[i];
-    }
-  }
-  return nullptr;
-}
-
-string *Administrator::getCourseCodes() const {
-  if (numCourses == 0)
-    return nullptr;
-  cout << numCourses << endl;
-  string *codes = new string[numCourses];
-  for (int i = 0; i < numCourses; ++i)
-    codes[i] = courses[i].getCode();
-  return codes;
-}
-
 void Administrator::handleMenu() {
   int choice;
   do {
@@ -208,7 +250,7 @@ void Administrator::handleMenu() {
          << "6. Remove Course\n"
          << "7. Display All Information\n"
          << "8. Logout\n";
-    cin >> choice;
+    choice = getValidatedInteger();
 
     switch (choice) {
     case 1: {
@@ -224,7 +266,20 @@ void Administrator::handleMenu() {
     }
     case 2: {
       int id;
-      cout << "Student Id: ";
+      if (numStudents == 0) {
+        cout << "No students you added yet." << endl;
+        break;
+      }
+
+      cout << "Available students to remove:" << endl;
+      for (int i = 0; i < numStudents; ++i) {
+        cout << students[i].getUsername() << '(' << students[i].getId() << ')';
+        if (i != numStudents - 1)
+          cout << ", ";
+        else
+          cout << endl;
+      }
+      cout << "Student id: ";
       cin >> id;
 
       removeStudent(id);
@@ -243,7 +298,20 @@ void Administrator::handleMenu() {
     }
     case 4: {
       int id;
-      cout << "Instructor Id: ";
+      if (numInstructors == 0) {
+        cout << "No instructors you hired yet." << endl;
+        break;
+      }
+      cout << "Available instructors to remove:" << endl;
+      for (int i = 0; i < numInstructors; ++i) {
+        cout << instructors[i].getUsername() << '(' << instructors[i].getId()
+             << ')';
+        if (i != numInstructors - 1)
+          cout << ", ";
+        else
+          cout << endl;
+      }
+      cout << "Instructor id: ";
       cin >> id;
 
       removeInstructor(id);
@@ -253,7 +321,7 @@ void Administrator::handleMenu() {
       string name, code;
       int credits;
       cout << "Course name: ";
-      cin >> name;
+      getline(cin, name);
       cout << "Course code: ";
       cin >> code;
       cout << "Course credits: ";
@@ -265,6 +333,19 @@ void Administrator::handleMenu() {
     }
     case 6: {
       string code;
+      if (numCourses == 0) {
+        cout << "No courses in the system yet." << endl;
+        break;
+      }
+
+      cout << "Available courses to remove:" << endl;
+      for (int i = 0; i < numCourses; ++i) {
+        cout << courses[i].getName() << '(' << courses[i].getCode() << ')';
+        if (i != numCourses - 1)
+          cout << ", ";
+        else
+          cout << endl;
+      }
       cout << "Course code: ";
       cin >> code;
 
@@ -276,23 +357,8 @@ void Administrator::handleMenu() {
       break;
     }
     case 8:
-      cout << "Logging out...\n";
+      cout << "Logging out..\n";
       return;
-    /* case 9: { */
-    /*   ifstream load("save.txt"); */
-    /*   string word; */
-    /*   int numInstructors = 0, numStudents = 0; */
-    /*   load >> numInstructors; */
-    /*   load >> numStudents; */
-    /*   string instructorUsername; */
-    /*   getline(load, word); */
-    /*   while (word != "InstructorIds:") { */
-    /*     getline(load, word); */
-    /*   } */
-    /**/
-    /*   load.close(); */
-    /*   return; */
-    /* } */
     default:
       cout << "Invalid choice! Please try again.\n";
     }
