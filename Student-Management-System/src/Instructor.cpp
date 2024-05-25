@@ -7,7 +7,9 @@
 #include <string>
 
 Instructor::Instructor()
-    : numCourses(0), ADMIN(nullptr), MAX_COURSES(INSTRUCTOR_MAX_COURSES) {}
+    : numCourses(0), ADMIN(nullptr), MAX_COURSES(INSTRUCTOR_MAX_COURSES) {
+  courses = new Course[MAX_COURSES];
+}
 
 Instructor::Instructor(const string &username, const string &password,
                        const Administrator &admin)
@@ -22,15 +24,10 @@ Instructor::~Instructor() { delete[] courses; }
 
 void Instructor::addCourse(const string &code) {
   if (numCourses < MAX_COURSES) {
-    if (!ADMIN) {
-      cout << "ADMIN nullptr\n";
-      return;
-    }
-    const Course *course = ADMIN->getCourse(code);
+    Course *course = ADMIN->getCourse(code);
     if (course) {
-      std::cout << "Course to be added: " << course->getName() << " ("
-                << course->getCode() << ")" << std::endl;
       courses[numCourses++] = *course;
+      course->addInstructorId(getId());
       cout << course->getName() << " is added successfully." << endl;
     } else
       cout << "Course with this specified code is not found in the system."
@@ -49,6 +46,7 @@ void Instructor::removeCourse(const string &code) {
   for (int i = 0; i < numCourses; i++) {
     if (courses[i].getCode() == code) {
       swapIndices(courses[i], courses[numCourses - 1]);
+      courses[i].removeInstructorId(getId());
       numCourses--;
     }
   }
@@ -59,22 +57,16 @@ void Instructor::removeCourse(const string &code) {
 
 void Instructor::setGrade(const string &code, const int &id,
                           const double &grade) {
-  if (numCourses == 0) {
-    cout << "You are not teaching any courses yet." << endl;
-    return;
-  }
-
   bool courseFound = false;
   for (int i = 0; i < numCourses; i++) {
     if (courses[i].getCode() == code) {
+      courseFound = true;
       courses[i].addStudentId(id, grade);
-
       Student *students = ADMIN->getStudents();
       for (int j = 0; j < ADMIN->getNumStudents(); ++j) {
         if (students[j].getId() == id)
           students[j].setGrade(code, grade);
       }
-      courseFound = true;
     }
   }
   if (!courseFound)
@@ -95,7 +87,6 @@ double Instructor::performStats(const string &code, const string &type) {
         return courses[i].getAvgGrade();
     }
   }
-  return -1;
 };
 
 void Instructor::operator=(const Instructor &instructor) {
@@ -120,7 +111,8 @@ void Instructor::display() const {
   for (int i = 0; i < numCourses; i++)
     cout << left << setw(COURSE_CODE_MAX_LENGTH + SPACE) << courses[i].getCode()
          << setw(COURSE_NAME_MAX_LENGTH + SPACE) << courses[i].getName()
-         << setw(COURSE_CREDITS_MAX_LENGTH + SPACE) << courses[i].getCredits();
+         << setw(COURSE_CREDITS_MAX_LENGTH + SPACE) << courses[i].getCredits()
+         << endl;
   cout << endl;
 }
 
@@ -135,12 +127,12 @@ void Instructor::handleMenu() {
     switch (choice) {
     case 1: {
       if (ADMIN->getNumCourses() == 0) {
-        cout << "No courses yet." << endl;
+        cout << "No courses in the system yet." << endl;
         break;
       }
       string *codes = ADMIN->getCourseCodes();
       string code;
-      cout << "Available courses to register in:" << endl;
+      cout << "Available courses to teach:" << endl;
       for (int i = 0; i < ADMIN->getNumCourses(); ++i) {
         cout << codes[i];
         if (i != ADMIN->getNumCourses() - 1)
@@ -165,8 +157,29 @@ void Instructor::handleMenu() {
       string code;
       int id;
       double grade;
+      if (numCourses == 0) {
+        cout << "You are not teaching any courses yet." << endl;
+        break;
+      }
+      cout << "courses you teach:" << endl;
+      for (int i = 0; i < numCourses; ++i) {
+        cout << courses[i].getCode();
+        if (i != numCourses - 1)
+          cout << ", ";
+        else
+          cout << endl;
+      }
       cout << "Enter the course code: ";
       cin >> code;
+      cout << "Available students:" << endl;
+      Student *students = ADMIN->getStudents();
+      for (int i = 0; i < ADMIN->getNumStudents(); ++i) {
+        cout << students[i].getId() << " - " << students[i].getUsername();
+        if (i != ADMIN->getNumStudents() - 1)
+          cout << ", ";
+        else
+          cout << endl;
+      }
       cout << "Enter the student id: ";
       cin >> id;
       cout << "Enter the new student grade: ";
@@ -182,13 +195,14 @@ void Instructor::handleMenu() {
               "minimum grade\n";
       cin >> choice;
       if (choice == 1)
-        cout << performStats("avg", code);
+        cout << performStats(code, "avg");
       else if (choice == 2)
-        cout << performStats("max", code);
+        cout << performStats(code, "max");
       else if (choice == 3)
-        cout << performStats("min", code);
+        cout << performStats(code, "min");
       else
         cout << "Invalid input.";
+      cout << endl;
       break;
     }
     case 5: {

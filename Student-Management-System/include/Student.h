@@ -20,7 +20,7 @@ public:
   Student();
   ~Student();
   Student(const string &, const string &, const Administrator &);
-  void registerCourse(const string &);
+  void registerCourse(const string &, const double &);
   void dropCourse(const string &);
   void setGrade(const string &, const double &);
   double getGrade(const string &);

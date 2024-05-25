@@ -3,6 +3,7 @@
 #include "../include/Instructor.h"
 #include "../include/Student.h"
 #include "../include/User.h"
+#include "fstream"
 #include "swapIndices.cpp"
 #include <iomanip>
 
@@ -277,6 +278,21 @@ void Administrator::handleMenu() {
     case 8:
       cout << "Logging out...\n";
       return;
+    /* case 9: { */
+    /*   ifstream load("save.txt"); */
+    /*   string word; */
+    /*   int numInstructors = 0, numStudents = 0; */
+    /*   load >> numInstructors; */
+    /*   load >> numStudents; */
+    /*   string instructorUsername; */
+    /*   getline(load, word); */
+    /*   while (word != "InstructorIds:") { */
+    /*     getline(load, word); */
+    /*   } */
+    /**/
+    /*   load.close(); */
+    /*   return; */
+    /* } */
     default:
       cout << "Invalid choice! Please try again.\n";
     }

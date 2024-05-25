@@ -24,11 +24,13 @@ Student::~Student() {
   delete[] grades;
 }
 
-void Student::registerCourse(const string &code) {
+void Student::registerCourse(const string &code, const double &grade = -1) {
   if (numCourses < MAX_COURSES) {
-    const Course *course = ADMIN->getCourse(code);
+    Course *course = ADMIN->getCourse(code);
     if (course) {
-      courses[numCourses++] = *course;
+      courses[numCourses] = *course;
+      grades[numCourses++] = grade;
+      course->addStudentId(getId(), grade);
       cout << course->getName() << " is registered successfully." << endl;
     } else
       cout << "Course with this specified code is not found in the system."
@@ -48,6 +50,8 @@ void Student::dropCourse(const string &code) {
   for (int i = 0; i < numCourses; ++i) {
     if (courses[i].getCode() == code) {
       swapIndices(courses[i], courses[numCourses - 1]);
+      swapIndices(grades[i], grades[numCourses - 1]);
+      courses[i].removeStudentId(getId());
       numCourses--;
     }
   }
@@ -57,12 +61,22 @@ void Student::dropCourse(const string &code) {
 }
 
 void Student::setGrade(const string &code, const double &grade) {
-  if (numCourses == 0)
-    cout << "No courses to set yet." << endl;
+  bool courseFound = false;
   for (int i = 0; i < numCourses; ++i) {
+    cout << courses[i].getName() << endl;
     if (courses[i].getCode() == code) {
+      courseFound = true;
       grades[i] = grade;
+      courses[i].addStudentId(getId(), grade);
+      Course *course = ADMIN->getCourse(code);
+      course->addStudentId(getId(), grade);
     }
+  }
+  if (!courseFound) {
+    cout << "Student is not registered in that course yet.\nRegistering.."
+         << endl;
+    registerCourse(code);
+    setGrade(code, grade);
   }
 }
 
@@ -83,11 +97,13 @@ double Student::getStats(const string &type) {
   if (type == "avg") {
     double sum = 0;
     for (int i = 0; i < numCourses; ++i) {
-      sum += courses[i].getGrade(getId());
+      double grade = courses[i].getGrade(getId());
+      if (grade >= 0) // Grade is -1 when when it is not set by the instructor
+        sum += grade;
     }
     return sum / numCourses;
   } else if (type == "max") {
-    double max = 0;
+    double max = 0.0;
     for (int i = 0; i < numCourses; ++i) {
       double grade = courses[i].getGrade(getId());
       if (grade > max)
@@ -98,7 +114,8 @@ double Student::getStats(const string &type) {
     double min = MAX_GRADE;
     for (int i = 0; i < numCourses; ++i) {
       double grade = courses[i].getGrade(getId());
-      if (grade < min)
+      if (grade < min &&
+          grade != -1) // Grade is -1 when when it is not set by the instructor
         min = grade;
     }
     return min;
@@ -186,7 +203,7 @@ void Student::handleMenu() {
                 "found."
              << endl;
       else
-        cout << "Your grade in " << code << " is: " << getGrade(code);
+        cout << "Your grade in " << code << " is: " << getGrade(code) << endl;
       break;
     }
     case 4: {
@@ -201,6 +218,7 @@ void Student::handleMenu() {
         cout << getStats("min");
       else
         cout << "Invalid input.";
+      cout << endl;
       break;
     }
     case 5:
