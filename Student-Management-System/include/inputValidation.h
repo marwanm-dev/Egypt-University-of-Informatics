@@ -1,6 +1,8 @@
 #ifndef INPUTVALIDATION_H
 #define INPUTVALIDATION_H
 
+#include <iostream>
+#include <limits>
 #include <string>
 
 using namespace std;
@@ -17,6 +19,7 @@ inline bool isSpecialChar(const char &);
 inline bool isAlphanumeric(const char &);
 
 // Input Validation
+inline int getValidatedInteger();
 
 inline bool isValidUsername(const string &);
 

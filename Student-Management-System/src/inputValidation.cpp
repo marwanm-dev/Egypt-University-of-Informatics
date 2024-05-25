@@ -22,20 +22,55 @@ bool isAlphanumeric(const char &c) {
 }
 
 // Input Validation
+int getValidatedInteger() {
+  int input;
+  while (true) {
+    cin >> input;
+    if (cin.fail()) // User entered a non-integer input
+    {
+      cin.clear(); // Clears the error flag
+      cin.ignore(numeric_limits<streamsize>::max(),
+                 '\n'); // Ignores the rest of the line, effectively discarding
+                        // the invalid input.
+      cout << "Invalid input. Please enter a number: ";
+    } else {
+      cin.ignore(numeric_limits<streamsize>::max(),
+                 '\n'); // Ignores any extra input on the same line to prevent
+                        // issues with subsequent input operations.eturn input;
+      break;
+    }
+  }
+  return input;
+}
+
 bool isValidUsername(const string &username) {
-  if (username.length() < 5 || username.length() > USERNAME_MAX_LENGTH)
+  if (username.length() < USERNAME_MIN_LENGTH ||
+      username.length() > USERNAME_MAX_LENGTH) {
     return false;
+  }
+
+  bool lastWasPeriod = false;
 
   for (int i = 0; i < username.length(); ++i) {
-    if (!isAlphanumeric(username[i]))
-      return false;
+    char c = username[i];
+
+    if (isalnum(c)) {
+      lastWasPeriod = false; // Reset period flag
+      continue;              // Allow letters and numbers
+    } else if (c == '.') {
+      if (lastWasPeriod)
+        return false;       // No consecutive periods
+      lastWasPeriod = true; // Set period flag
+    } else
+      return false; // Disallow any other characters
   }
 
   return true;
 }
 
 bool isValidPassword(const string &password) {
-  if (password.length() < 8 || password.length() > 32)
+  if (password.length() < PASSWORD_MIN_LENGTH ||
+      password.length() > PASSWORD_MAX_LENGTH)
     return false;
 
   bool hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
@@ -55,11 +90,12 @@ bool isValidPassword(const string &password) {
 }
 
 bool isValidCourseName(const string &name) {
-  return name.length() >= 8 && name.length() <= COURSE_NAME_MAX_LENGTH;
+  return name.length() >= COURSE_NAME_MIN_LENGTH &&
+         name.length() <= COURSE_NAME_MAX_LENGTH;
 }
 
 bool isValidCourseCode(const string &code) {
-  if (code.length() > 10) {
+  if (code.length() > COURSE_CODE_MAX_LENGTH) {
     return false;
   }
   int dashCount = 0;
