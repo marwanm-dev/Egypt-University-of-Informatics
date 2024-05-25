@@ -33,7 +33,8 @@ void Instructor::addCourse(const string &code) {
       for (int i = 0; i < numCourses; ++i) {
         if (courses[i].getCode() == code) {
           courseFound = true;
-          cout << "Course with that code already registered" << endl;
+          cout << "Course with that code already added in your teaching list."
+               << endl;
           break;
         }
       }
@@ -127,16 +128,19 @@ void Instructor::display() const {
   User::display();
 
   // Display header for Courses
-  cout << "Instructor Courses:" << endl;
+  cout << "Instructor Courses" << endl;
   cout << left << setw(COURSE_CODE_MAX_LENGTH + SPACE) << "Code"
        << setw(COURSE_NAME_MAX_LENGTH + SPACE) << "Name"
        << setw(COURSE_CREDITS_MAX_LENGTH + SPACE) << "Credits" << endl;
-  cout << DIVIDER;
+  cout << string(COURSE_CODE_MAX_LENGTH + SPACE, '-') << ' '
+       << string(COURSE_NAME_MAX_LENGTH + SPACE - 1, '-') << ' '
+       << string(COURSE_CREDITS_MAX_LENGTH + SPACE - 1, '-') << endl;
   for (int i = 0; i < numCourses; i++)
     cout << left << setw(COURSE_CODE_MAX_LENGTH + SPACE) << courses[i].getCode()
          << setw(COURSE_NAME_MAX_LENGTH + SPACE) << courses[i].getName()
          << setw(COURSE_CREDITS_MAX_LENGTH + SPACE) << courses[i].getCredits()
          << endl;
+
   cout << endl;
 }
 

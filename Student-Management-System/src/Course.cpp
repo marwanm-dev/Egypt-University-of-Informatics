@@ -191,28 +191,43 @@ void Course::operator=(const Course &course) {
   }
 }
 void Course::display() const {
+  // Display course information
   cout << left << setw(COURSE_CODE_MAX_LENGTH + SPACE) << "Code"
        << setw(COURSE_NAME_MAX_LENGTH + SPACE) << "Name"
        << setw(COURSE_CREDITS_MAX_LENGTH + SPACE) << "Credits" << endl;
-  cout << DIVIDER;
+
+  cout << string(COURSE_CODE_MAX_LENGTH + SPACE, '-') << ' '
+       << string(COURSE_NAME_MAX_LENGTH + SPACE - 1, '-') << ' '
+       << string(COURSE_CREDITS_MAX_LENGTH + SPACE - 1, '-') << endl;
+
   cout << left << setw(COURSE_CODE_MAX_LENGTH + SPACE) << getCode()
        << setw(COURSE_NAME_MAX_LENGTH + SPACE) << getName()
        << setw(COURSE_CREDITS_MAX_LENGTH + SPACE) << getCredits() << endl;
+
   cout << endl;
+
   // Display header for Instructor Ids
-  cout << "Instructor Ids:" << endl;
-  cout << DIVIDER;
-  for (int i = 0; i < numInstructors; ++i)
-    cout << left << instructorIds[i] << endl;
+  cout << "Instructor Ids" << endl;
+  cout << string(ID_MAX_LENGTH + SPACE, '-') << endl;
+
+  for (int i = 0; i < numInstructors; ++i) {
+    cout << left << setw(ID_MAX_LENGTH + SPACE) << instructorIds[i] << endl;
+  }
+
   cout << endl;
-  // Display header for Student Ids/Grades
+
+  // Display header for Student Ids and Grades
   cout << "Student Ids and Grades" << endl;
   cout << left << setw(ID_MAX_LENGTH + SPACE) << "Id"
        << setw(GRADE_MAX_LENGTH + SPACE) << "Grade" << endl;
-  cout << DIVIDER;
-  for (int i = 0; i < numStudents; ++i)
+
+  cout << string(ID_MAX_LENGTH + SPACE, '-') << ' '
+       << string(GRADE_MAX_LENGTH + SPACE - 1, '-') << endl;
+
+  for (int i = 0; i < numStudents; ++i) {
     cout << left << setw(ID_MAX_LENGTH + SPACE) << studentIds[i]
          << setw(GRADE_MAX_LENGTH + SPACE) << studentGrades[i] << endl;
+  }
 
   cout << endl;
 }

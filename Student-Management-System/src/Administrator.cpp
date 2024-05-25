@@ -222,29 +222,42 @@ void Administrator::resizeCourses() {
 
 void Administrator::display() const {
   cout << endl;
-  cout << "Your Ticket:" << endl;
   User::display();
 
+  cout << DIVIDER;
+
   // Display header for instructors
-  cout << "Instructors:\n";
-  cout << LONG_DIVIDER;
-  for (int i = 0; i < numInstructors; ++i)
+  cout << "Instructors" << endl;
+  cout << string(20, '-') << endl;
+  for (int i = 0; i < numInstructors; ++i) {
     instructors[i].display();
-  cout << LONG_DIVIDER;
+    if (i != numInstructors - 1)
+      cout << string(20, '-') << endl; // Divider between instructors
+  }
+
+  cout << DIVIDER;
 
   // Display header for students
-  cout << "Students:\n";
-  cout << LONG_DIVIDER;
-  for (int i = 0; i < numStudents; ++i)
+  cout << "Students" << endl;
+  cout << string(20, '-') << endl;
+  for (int i = 0; i < numStudents; ++i) {
     students[i].display();
-  cout << LONG_DIVIDER;
+    if (i != numStudents - 1)
+      cout << string(20, '-') << endl; // Divider between students
+  }
+
+  cout << DIVIDER;
 
   // Display header for courses
-  cout << "Courses:" << endl;
-  cout << LONG_DIVIDER;
-  for (int i = 0; i < numCourses; ++i)
+  cout << "Courses" << endl;
+  cout << string(20, '-') << endl;
+  for (int i = 0; i < numCourses; ++i) {
     courses[i].display();
-  cout << LONG_DIVIDER;
+    if (i != numCourses - 1)
+      cout << string(20, '-') << endl; // Divider between courses
+  }
+
+  cout << DIVIDER;
   cout << endl;
 }
 

@@ -42,11 +42,8 @@ void User::operator=(const User &user) {
 }
 
 void User::display() const {
-  cout << left << setw(ID_MAX_LENGTH + SPACE) << "ID"
-       << setw(USERNAME_MAX_LENGTH + SPACE) << "Username" << endl;
-  cout << DIVIDER;
-  cout << left << setw(ID_MAX_LENGTH + SPACE) << id
-       << setw(USERNAME_MAX_LENGTH + SPACE) << username << endl;
+  cout << "Id: " << id << endl;
+  cout << "Username: " << username << endl;
 
   cout << endl;
 }

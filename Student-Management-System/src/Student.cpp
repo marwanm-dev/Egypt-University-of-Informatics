@@ -171,23 +171,27 @@ void Student::display() const {
   User::display();
 
   // Display header for Courses and Grades
-  cout << "Students' Courses/Grades" << endl;
+  cout << "Student Courses and Grades" << endl;
   cout << left << setw(COURSE_CODE_MAX_LENGTH + SPACE) << "Code"
        << setw(COURSE_NAME_MAX_LENGTH + SPACE) << "Name"
        << setw(COURSE_CREDITS_MAX_LENGTH + 2 * SPACE) << "Credits"
        << setw(GRADE_MAX_LENGTH + SPACE) << "Grade" << endl;
-  cout << DIVIDER;
-  for (int i = 0; i < numCourses; ++i)
+  cout << string(COURSE_CODE_MAX_LENGTH + SPACE, '-') << ' '
+       << string(COURSE_NAME_MAX_LENGTH + SPACE - 1, '-') << ' '
+       << string(COURSE_CREDITS_MAX_LENGTH + 2 * SPACE - 1, '-') << ' '
+       << string(GRADE_MAX_LENGTH + SPACE - 1, '-') << endl;
+
+  for (int i = 0; i < numCourses; ++i) {
     cout << left << setw(COURSE_CODE_MAX_LENGTH + SPACE) << courses[i].getCode()
          << setw(COURSE_NAME_MAX_LENGTH + SPACE) << courses[i].getName()
          << setw(COURSE_CREDITS_MAX_LENGTH + 2 * SPACE)
          << courses[i].getCredits() << setw(GRADE_MAX_LENGTH + SPACE)
          << grades[i] << endl;
+  }
   cout << endl;
 }
 
 void Student::handleMenu() {
-
   int choice;
   do {
     cout << "1. Enroll in a new Course\n2. Drop a Course\n3. View Grade in a "
@@ -195,6 +199,7 @@ void Student::handleMenu() {
          << "5. Display All Information\n6. Logout\n";
     choice = getValidatedInteger();
 
+    cout << endl;
     switch (choice) {
     case 1: {
       if (ADMIN->getNumCourses() == 0) {
