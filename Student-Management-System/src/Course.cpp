@@ -88,8 +88,8 @@ void Course::addStudent(const int &id, const double &grade) {
     if (studentIds[i] == id) {
       studentGrades[i] = grade;
       found = true;
-      break;
       cout << "Overwritten the student grade successfully" << endl;
+      break;
     }
   }
   if (!found) {
@@ -170,7 +170,6 @@ void Course::operator=(const Course &course) {
   delete[] instructorIds;
   delete[] studentIds;
   delete[] studentGrades;
-
   name = course.name;
   code = course.code;
   credits = course.credits;
