@@ -32,7 +32,7 @@ Course::Course(const Course &course)
 }
 
 Course::Course(const string &name, const string &code, const int &credits)
-    : numStudents(0), numInstructors(0), studentCapacity(1),
+    : numStudents(0), numInstructors(0), studentCapacity(INITIAL_CAPACITY),
       MAX_INSTRUCTORS(COURSE_MAX_INSTRUCTORS) {
   instructorIds = new int[MAX_INSTRUCTORS];
   studentIds = new int[studentCapacity];
