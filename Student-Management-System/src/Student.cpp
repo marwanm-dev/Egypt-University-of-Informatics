@@ -84,7 +84,6 @@ void Student::dropCourse(const string &code) {
 void Student::setGrade(const string &code, const double &grade) {
   bool courseFound = false;
   for (int i = 0; i < numCourses; ++i) {
-    cout << courses[i].getName() << endl;
     if (courses[i].getCode() == code) {
       courseFound = true;
       grades[i] = grade;
