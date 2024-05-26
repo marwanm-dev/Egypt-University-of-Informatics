@@ -3,7 +3,6 @@
 #include "../include/Instructor.h"
 #include "../include/Student.h"
 #include "../include/User.h"
-#include "fstream"
 #include "inputValidation.cpp"
 #include "swapIndices.cpp"
 #include <iomanip>
@@ -46,7 +45,6 @@ void Administrator::addStudent(const Student &student) {
       studentFound = true;
   }
   if (!studentFound) {
-
     if (numStudents == studentCapacity)
       resizeStudents();
     students[numStudents++] = student;
@@ -58,8 +56,10 @@ void Administrator::addStudent(const Student &student) {
 }
 
 void Administrator::removeStudent(const int &id) {
-  if (numStudents == 0)
+  if (numStudents == 0) {
     cout << "No students to remove." << endl;
+    return;
+  }
 
   int initialNumStudents = numStudents;
   for (int i = 0; i < numStudents; ++i) {
@@ -102,8 +102,10 @@ void Administrator::addInstructor(const Instructor &instructor) {
 }
 
 void Administrator::removeInstructor(const int &id) {
-  if (numInstructors == 0)
+  if (numInstructors == 0) {
     cout << "No instructors to remove." << endl;
+    return;
+  }
 
   int initialNumInstructors = numInstructors;
   for (int i = 0; i < numInstructors; i++) {
@@ -145,8 +147,10 @@ void Administrator::addCourse(const Course &course) {
 }
 
 void Administrator::removeCourse(const string &code) {
-  if (numCourses == 0)
+  if (numCourses == 0) {
     cout << "No courses to remove." << endl;
+    return;
+  }
 
   int initialNumCourses = numCourses;
   for (int i = 0; i < numCourses; i++) {
@@ -167,18 +171,6 @@ void Administrator::removeCourse(const string &code) {
     cout << "Course removed successfully." << endl;
 }
 
-// Resizes dynamic arrays based on their current capacity
-void Administrator::resizeStudents() {
-  studentCapacity *= 2;
-  Student *newStudents = new Student[studentCapacity];
-
-  for (int i = 0; i < numStudents; ++i)
-    newStudents[i] = students[i];
-
-  delete[] students;
-  students = newStudents;
-}
-
 Course *Administrator::getCourse(const string &code) const {
   for (int i = 0; i < numCourses; ++i) {
     if (courses[i].getCode() == code) {
@@ -196,6 +188,18 @@ string *Administrator::getCourseCodes() const {
   for (int i = 0; i < numCourses; ++i)
     codes[i] = courses[i].getCode();
   return codes;
+}
+
+// Resizes dynamic arrays based on their current capacity
+void Administrator::resizeStudents() {
+  studentCapacity *= 2;
+  Student *newStudents = new Student[studentCapacity];
+
+  for (int i = 0; i < numStudents; ++i)
+    newStudents[i] = students[i];
+
+  delete[] students;
+  students = newStudents;
 }
 
 void Administrator::resizeInstructors() {

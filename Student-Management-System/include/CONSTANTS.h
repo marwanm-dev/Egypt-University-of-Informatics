@@ -16,11 +16,8 @@ const int INITIAL_CAPACITY = 1;
 
 // Input Validation and Display
 const string DIVIDER =
-    "------------------------------------------------------------"
+    "-------------------------------------------------------------------"
     "------------------\n";
-const string LONG_DIVIDER =
-    "------------------------------------------------------------"
-    "------------------------------------------------------------\n";
 const int SPACE = 2;
 const int ID_MAX_LENGTH = 10;   // INT_MAX
 const int GRADE_MAX_LENGTH = 3; // e.g., 100
