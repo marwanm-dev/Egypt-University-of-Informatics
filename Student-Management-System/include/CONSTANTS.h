@@ -9,8 +9,8 @@ const string ADMIN_USERNAME = "admin";
 const string ADMIN_PASSWORD = "Admin123!";
 
 // Array sizes
-const int STUDENT_MAX_COURSES = 5;
-const int INSTRUCTOR_MAX_COURSES = 6;
+const int STUDENT_MAX_COURSES = 6;
+const int INSTRUCTOR_MAX_COURSES = 5;
 const int COURSE_MAX_INSTRUCTORS = 3;
 const int INITIAL_CAPACITY = 1;
 
