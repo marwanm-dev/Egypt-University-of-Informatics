@@ -1,0 +1,165 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:144.0) Gecko/20100101 Firefox/144.0" version="28.2.9">
+  <diagram name="Page-1" id="6HZi1fecZ20u1Eb19EmW">
+    <mxGraphModel dx="1929" dy="1094" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="EHYoLNMxWJjII82R4qix-50" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="EHYoLNMxWJjII82R4qix-1" target="EHYoLNMxWJjII82R4qix-32">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="530" />
+              <mxPoint x="160" y="465" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="EHYoLNMxWJjII82R4qix-1" target="EHYoLNMxWJjII82R4qix-33">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="530" />
+              <mxPoint x="160" y="605" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-1" value="Doctor" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="500" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="EHYoLNMxWJjII82R4qix-3" target="EHYoLNMxWJjII82R4qix-55">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-3" value="Pharmacy Staff" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="995" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="EHYoLNMxWJjII82R4qix-4" target="EHYoLNMxWJjII82R4qix-41">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-4" value="Insurance Agent" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1145" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-10" value="Medalyze System" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="130" y="120" width="590" height="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-11" value="Book Appointment" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="100" y="70" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-16" value="View EHR &amp;amp; Lab Results" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="95" y="180" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-17" value="Notify Patient - New Lab Result" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="365" y="180" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="EHYoLNMxWJjII82R4qix-10" source="EHYoLNMxWJjII82R4qix-16" target="EHYoLNMxWJjII82R4qix-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-19" value="&amp;lt;&amp;lt;Extend&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EHYoLNMxWJjII82R4qix-18">
+          <mxGeometry x="-0.175" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-32" value="Manage Patient EHR" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="225" y="310" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-33" value="Send E-Prescription" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="95" y="450" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-34" value="Notify Doctor - Alternative Drug" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="365" y="450" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-35" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="EHYoLNMxWJjII82R4qix-10" source="EHYoLNMxWJjII82R4qix-33" target="EHYoLNMxWJjII82R4qix-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-36" value="&amp;lt;&amp;lt;Extend&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EHYoLNMxWJjII82R4qix-35">
+          <mxGeometry x="-0.175" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-37" value="Generate Utilization Report" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="95" y="590" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-38" value="Generate &amp;amp; Email Reports" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="365" y="590" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-39" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="EHYoLNMxWJjII82R4qix-10" source="EHYoLNMxWJjII82R4qix-37" target="EHYoLNMxWJjII82R4qix-38">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-40" value="&amp;lt;&amp;lt;Include&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EHYoLNMxWJjII82R4qix-39">
+          <mxGeometry x="-0.175" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-45" value="Process E-Prescription" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="225" y="720" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-12" value="Send Appointment Reminder" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="365" y="70" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-13" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="EHYoLNMxWJjII82R4qix-10" source="EHYoLNMxWJjII82R4qix-11" target="EHYoLNMxWJjII82R4qix-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-14" value="&amp;lt;&amp;lt;Include&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EHYoLNMxWJjII82R4qix-13">
+          <mxGeometry x="-0.175" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-55" value="Process E-Prescription" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="EHYoLNMxWJjII82R4qix-10">
+          <mxGeometry x="225" y="870" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-47" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="EHYoLNMxWJjII82R4qix-6" target="EHYoLNMxWJjII82R4qix-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="EHYoLNMxWJjII82R4qix-6" target="EHYoLNMxWJjII82R4qix-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="280" />
+              <mxPoint x="160" y="335" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-6" value="Patient" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="250" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="EHYoLNMxWJjII82R4qix-5" target="EHYoLNMxWJjII82R4qix-37">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="810" />
+              <mxPoint x="160" y="745" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-54" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="EHYoLNMxWJjII82R4qix-5" target="EHYoLNMxWJjII82R4qix-45">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="810" />
+              <mxPoint x="160" y="875" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-5" value="Administrator" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="780" width="30" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-41" value="Validate Insurance Claim" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="220" y="1140" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-42" value="Notify Admin/Patient of Decision" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="1140" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-43" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="EHYoLNMxWJjII82R4qix-41" target="EHYoLNMxWJjII82R4qix-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-44" value="&amp;lt;&amp;lt;Include&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="EHYoLNMxWJjII82R4qix-43">
+          <mxGeometry x="-0.175" y="1" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-46" value="Interacts with all automated sub-use cases" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="350" y="1270" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-63" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="EHYoLNMxWJjII82R4qix-62" target="EHYoLNMxWJjII82R4qix-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="EHYoLNMxWJjII82R4qix-62" value="System" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="1275" width="30" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
