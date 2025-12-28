@@ -10,11 +10,12 @@ def get_connection():
     try:
         conn = pyodbc.connect(
             "DRIVER={ODBC Driver 18 for SQL Server};"
+            # "SERVER=localhost;"
             "SERVER=192.168.1.9,1433;"
             "DATABASE=ClinicManagementSystem;"
             "UID=marwan;"
             "PWD=Marwan123;"
-            "Encrypt=no;"
+            "Encrypt=yes;"
             "TrustServerCertificate=yes;"
             "Connection Timeout=5;"
         )
