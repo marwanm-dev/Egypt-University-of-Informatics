@@ -32,6 +32,5 @@ public class Appointment {
 
     public void cancel() {
         this.status = "Cancelled";
-        Logger.getInstance().log("Appointment " + appointmentID + " cancelled.");
     }
 }

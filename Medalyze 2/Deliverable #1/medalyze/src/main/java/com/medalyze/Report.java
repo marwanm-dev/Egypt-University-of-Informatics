@@ -20,6 +20,5 @@ public class Report {
 
     public void generate() {
         System.out.println("Generating " + reportType + " report...");
-        Logger.getInstance().log(reportType + " report generated.");
     }
 }
