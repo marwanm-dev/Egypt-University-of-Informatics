@@ -25,5 +25,11 @@ public class Main {
         report.generate();
 
         System.out.println("System running successfully.");
+
+        // Logger Singleton Test
+        Logger logger1 = Logger.getInstance();
+        Logger logger2 = Logger.getInstance();
+
+        System.out.println("Same logger instance? " + (logger1 == logger2));
     }
 }

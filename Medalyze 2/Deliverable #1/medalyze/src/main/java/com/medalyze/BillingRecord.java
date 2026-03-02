@@ -26,5 +26,6 @@ public class BillingRecord {
 
     public void updateInsuranceStatus(String status) {
         this.insuranceStatus = status;
+        Logger.getInstance().log("Billing " + billingID + " insurance updated to: " + status);
     }
 }
